@@ -1,0 +1,18 @@
+﻿<Window x:Name="WindowFindPerson" x:Class="VOiP_Communicator.FindPersonWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VOiP_Communicator"
+        mc:Ignorable="d"
+        Title="Find Person" Height="365.295" Width="725.882">
+    <Grid>
+        <TextBox x:Name="TextBox_Username" HorizontalAlignment="Left" Height="31" Margin="130,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="548" FontSize="14" FontFamily="Sitka Text"/>
+        <DataGrid x:Name="DataGrid_Results" HorizontalAlignment="Left" Height="151" Margin="130,86,0,0" VerticalAlignment="Top" Width="548" FontSize="14" FontFamily="Sitka Text"/>
+        <Label x:Name="Label_Username" Content="Username:" HorizontalAlignment="Left" Margin="25,32,0,0" VerticalAlignment="Top" Width="100" FontSize="14" FontFamily="Sitka Text"/>
+        <Label x:Name="Label_Results" Content="Results:&#xD;&#xA;" HorizontalAlignment="Left" Height="42" Margin="25,86,0,0" VerticalAlignment="Top" Width="100" FontSize="14" FontFamily="Sitka Text"/>
+        <Button x:Name="Button_Search" Content="Search" HorizontalAlignment="Left" Height="45" Margin="130,279,0,0" VerticalAlignment="Top" Width="256" FontFamily="Sitka Text" FontSize="14"/>
+        <Button x:Name="Button_Exit" Content="Exit" HorizontalAlignment="Left" Height="45" Margin="422,279,0,0" VerticalAlignment="Top" Width="256" FontFamily="Sitka Text" FontSize="14"/>
+
+    </Grid>
+</Window>
