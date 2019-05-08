@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace VOiP_Communicator
         public WindowMain()
         {
             InitializeComponent();
+            
         }
 
         private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
