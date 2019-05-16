@@ -1,0 +1,26 @@
+﻿<Window x:Class="VOiP_Communicator.RegisterForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VOiP_Communicator"
+        mc:Ignorable="d"
+        Title="RegisterForm" Height="450" Width="800">
+    <Grid>
+        <PasswordBox x:Name="Password" HorizontalAlignment="Left" Margin="214,224,0,0" VerticalAlignment="Top" Width="371" Height="30"/>
+        <PasswordBox x:Name="Retype_Password" HorizontalAlignment="Left" Margin="214,295,0,0" VerticalAlignment="Top" Width="371" Height="30"/>
+        <TextBox x:Name="Username" HorizontalAlignment="Left" Height="30" Margin="214,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="371"/>
+        <TextBox x:Name="Email" HorizontalAlignment="Left" Height="30" Margin="214,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="371"/>
+        <Separator HorizontalAlignment="Left" Height="100" Margin="255,85,0,0" VerticalAlignment="Top" Width="289"/>
+        <Separator HorizontalAlignment="Left" Height="100" Margin="255,154,0,0" VerticalAlignment="Top" Width="289"/>
+        <Button x:Name="Register" Content="Register" HorizontalAlignment="Left" Margin="458,353,0,0" VerticalAlignment="Top" Width="127" Height="37"/>
+        <Button x:Name="Back" Content="Back" HorizontalAlignment="Left" Margin="214,353,0,0" VerticalAlignment="Top" Width="127" Height="37" Click="Back_Click_1"/>
+        <Label x:Name="label" Content="Register" HorizontalAlignment="Left" Margin="358,24,0,0" VerticalAlignment="Top" Width="84" FontSize="20" RenderTransformOrigin="2.353,0.516"/>
+        <Label x:Name="label1" Content="Username:" HorizontalAlignment="Left" Margin="143,85,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.54,-4.165" Height="28"/>
+        <Label x:Name="label1_Copy" Content="Email:" HorizontalAlignment="Left" Margin="168,157,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.54,-4.165" Height="28"/>
+        <Label x:Name="label1_Copy1" Content="Password:" HorizontalAlignment="Left" Margin="146,226,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.54,-4.165" Height="28"/>
+        <Label x:Name="label1_Copy2" Content="Retype password:" HorizontalAlignment="Left" Margin="111,297,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.54,-4.165" Height="28"/>
+        <Separator HorizontalAlignment="Left" Height="100" Margin="255,226,0,0" VerticalAlignment="Top" Width="289"/>
+
+    </Grid>
+</Window>

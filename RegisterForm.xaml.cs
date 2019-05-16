@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,23 +15,20 @@ using System.Windows.Shapes;
 namespace VOiP_Communicator
 {
     /// <summary>
-    /// Interaction logic for WindowMain.xaml
+    /// Interaction logic for RegisterForm.xaml
     /// </summary>
-    public partial class WindowMain : Window
+    public partial class RegisterForm : Window
     {
-        public WindowMain()
+        public RegisterForm()
         {
             InitializeComponent();
         }
 
-        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
+        private void Back_Click_1(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
+            this.Hide();
+            LoginWindow lw = new LoginWindow();
+            lw.Show();
         }
     }
 }

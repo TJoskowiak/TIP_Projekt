@@ -24,13 +24,17 @@ namespace VOiP_Communicator
 
         private void Button_Register_Click(object sender, RoutedEventArgs e)
         {
-            
-            DBConnection con = DBConnection.Instance();
+
+            /*DBConnection con = DBConnection.Instance();
             if (con.IsConnect())
             {
                 Console.Write("it works!");
             }
-            else Console.Write("nope");
+            else Console.Write("nope");*/
+
+            RegisterForm rf = new RegisterForm();
+            rf.Show();
+            this.Hide();
         }
     }
 }
