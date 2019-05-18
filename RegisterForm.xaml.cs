@@ -46,7 +46,7 @@ namespace VOiP_Communicator
             if (validate(username, email, password, repeat_password))
             {
                 var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                var stringChars = new char[8];
+                var stringChars = new char[128];
                 var random = new Random();
 
                 for (int i = 0; i < stringChars.Length; i++)
@@ -62,7 +62,7 @@ namespace VOiP_Communicator
 
                 userRepo.createUser(username, email, passwordHash, salt, GetLocalIPAddress(), 0);
                 this.Hide();
-                MessageBox.Show("U have succesfully registered, now you can login");
+                MessageBox.Show("You have succesfully registered, now you can login");
                 
                 LoginWindow lw = new LoginWindow();
                 lw.Show();

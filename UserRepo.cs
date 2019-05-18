@@ -34,10 +34,43 @@ namespace VOiP_Communicator
             return result;
         }
 
+        public Tuple<string, string> GetSaltAndPassowrdByUsername(string username)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "Select * from users where username like '" + username + "';";
+            MySqlDataReader reader = con.query(q);
+            Tuple<string, string> t = null;
+            while (reader.Read())
+            {
+                t = new Tuple<string, string>(reader["salt"].ToString(), reader["password"].ToString());
+            }
+
+            con.Close();
+
+            return t;
+        }
+
+        public void updateLogin(string username, string ipAddress)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "UPDATE users set ip_address = @ipAddress, last_login_date = now() where username like @username";
+
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = con.Connection.CreateCommand();
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@ipAddress", ipAddress);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
         public void createUser(string username, string email, string password, string salt, string ipAddress, int status)
         {
             DBConnection con = DBConnection.Instance();
-            string q = "insert into  users (username, email, password, salt, ip_address, status, last_login_date, created_date) VALUES (@username, @email, @password, @salt, @ipAddress, @status, now(), now());";
+            string q = "insert into  users (username, email, password, salt, ip_address, status, last_login_date, created_date) " +
+                "VALUES (@username, @email, @password, @salt, @ipAddress, @status, now(), now());";
             if (con.IsConnect())
             {
                 MySqlCommand cmd = con.Connection.CreateCommand();
