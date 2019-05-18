@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
@@ -23,6 +24,7 @@ namespace VOiP_Communicator
 
         public string Password { get; set; }
         private MySqlConnection connection = null;
+
         public MySqlConnection Connection
         {
             get { return connection; }
@@ -40,11 +42,11 @@ namespace VOiP_Communicator
         {
             if (Connection == null)
             {
-                string connstring = string.Format("Server=localhost; UID=root; password=root", "voip");
+                string connstring = string.Format("Server=localhost;Initial Catalog='voip' ;UID=root; password=root");
                 connection = new MySqlConnection(connstring);
-                connection.Open();
+                
             }
-
+            connection.Open();
             return true;
         }
 
@@ -52,5 +54,26 @@ namespace VOiP_Communicator
         {
             connection.Close();
         }
+
+        public MySqlDataReader query(string q)
+        {
+            if (IsConnect())
+            {
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = q;
+          
+                MySqlDataReader reader = cmd.ExecuteReader();
+                
+                return reader;
+            }
+
+            else
+            {
+                MessageBox.Show("Problems with database");
+
+                return null;
+            }
+        }
+       
     }
 }

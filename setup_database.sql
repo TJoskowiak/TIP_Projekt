@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users(
     email VARCHAR(50) NOT NULL,
     password CHAR(128) NOT NULL,
     salt CHAR(128) NOT NULL,
-    ip_address INT UNSIGNED NOT NULL,
+    ip_address VARCHAR(50) NOT NULL,
     status TINYINT(4) DEFAULT 0,
     profile_picture BLOB NULL,
     last_login_date DATETIME NOT NULL,

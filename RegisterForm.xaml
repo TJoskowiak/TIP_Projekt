@@ -13,7 +13,7 @@
         <TextBox x:Name="Email" HorizontalAlignment="Left" Height="30" Margin="214,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="371"/>
         <Separator HorizontalAlignment="Left" Height="100" Margin="255,85,0,0" VerticalAlignment="Top" Width="289"/>
         <Separator HorizontalAlignment="Left" Height="100" Margin="255,154,0,0" VerticalAlignment="Top" Width="289"/>
-        <Button x:Name="Register" Content="Register" HorizontalAlignment="Left" Margin="458,353,0,0" VerticalAlignment="Top" Width="127" Height="37"/>
+        <Button x:Name="Register" Content="Register" HorizontalAlignment="Left" Margin="458,353,0,0" VerticalAlignment="Top" Width="127" Height="37" Click="Register_Click"/>
         <Button x:Name="Back" Content="Back" HorizontalAlignment="Left" Margin="214,353,0,0" VerticalAlignment="Top" Width="127" Height="37" Click="Back_Click_1"/>
         <Label x:Name="label" Content="Register" HorizontalAlignment="Left" Margin="358,24,0,0" VerticalAlignment="Top" Width="84" FontSize="20" RenderTransformOrigin="2.353,0.516"/>
         <Label x:Name="label1" Content="Username:" HorizontalAlignment="Left" Margin="143,85,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.54,-4.165" Height="28"/>
