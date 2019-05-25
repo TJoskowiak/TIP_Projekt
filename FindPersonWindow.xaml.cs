@@ -23,5 +23,42 @@ namespace VOiP_Communicator
         {
             InitializeComponent();
         }
+
+        private void Button_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            WindowMain mw = new WindowMain();
+            mw.Show();
+        }
+
+        private void Button_Search_Click(object sender, RoutedEventArgs e)
+        {
+            string username = TextBox_Username.Text;
+            if (String.IsNullOrEmpty(username))
+            {
+                MessageBox.Show("Fill username textbox");
+            }
+            else
+            {
+                listView.Items.Clear();
+                UserRepo userRepo = UserRepo.Instance();
+                List<(string, string, string, string)> list = userRepo.getSimiliarUsers(username);
+                foreach ((string, string, string, string) tuple in list)
+                {
+                    listView.Items.Add(tuple);
+                }
+
+            }
+        }
+
+        private void DataGrid_Results_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

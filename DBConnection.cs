@@ -42,7 +42,7 @@ namespace VOiP_Communicator
         {
             if (Connection == null)
             {
-                string connstring = string.Format("Server=localhost;Initial Catalog='voip' ;UID=root; password=root");
+                string connstring = string.Format("Server=192.168.0.101;Initial Catalog='voip' ;UID=connect; password=connect");
                 connection = new MySqlConnection(connstring);
                 
             }

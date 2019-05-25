@@ -19,7 +19,7 @@
         <Label x:Name="Label_TimeElapsed" Content="00:00" HorizontalAlignment="Left" Height="32" Margin="332,20,0,0" VerticalAlignment="Top" Width="68" FontSize="20" FontFamily="Sitka Text"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="118" Margin="34,20,0,0" Stroke="Black" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.5,0.202"/>
         <Label x:Name="Label_USername" Content="Name" HorizontalAlignment="Left" Height="31" Margin="181,25,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="Button_FindPerson" Content="Find..." HorizontalAlignment="Left" Height="30" Margin="415,396,0,0" VerticalAlignment="Top" Width="139"/>
+        <Button x:Name="Button_FindPerson" Content="Find..." HorizontalAlignment="Left" Height="30" Margin="415,396,0,0" VerticalAlignment="Top" Width="139" Click="Button_FindPerson_Click"/>
         <Button x:Name="Button_History" Content="History" HorizontalAlignment="Left" Height="30" Margin="204,396,0,0" VerticalAlignment="Top" Width="206"/>
         <Button x:Name="Button_Options" Content="Options" HorizontalAlignment="Left" Height="30" Margin="11,396,0,0" VerticalAlignment="Top" Width="188"/>
 

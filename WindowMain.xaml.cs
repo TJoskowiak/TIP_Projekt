@@ -34,5 +34,12 @@ namespace VOiP_Communicator
         {
 
         }
+
+        private void Button_FindPerson_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            FindPersonWindow fpw = new FindPersonWindow();
+            fpw.Show();
+        }
     }
 }

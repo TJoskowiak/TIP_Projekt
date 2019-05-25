@@ -34,6 +34,22 @@ namespace VOiP_Communicator
             return result;
         }
 
+        public List<(string, string, string, string)> getSimiliarUsers(string username)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "Select * from users where username like '%" + username + "%';";
+            MySqlDataReader reader = con.query(q);
+            var tupleList = new List<(string, string, string, string)>();
+            while (reader.Read())
+            {
+                tupleList.Add((reader["username"].ToString(), reader["email"].ToString(), reader["ip_address"].ToString(), reader["last_login_date"].ToString()));
+            }
+
+            con.Close();
+
+            return tupleList;
+        }
+
         public Tuple<string, string> GetSaltAndPassowrdByUsername(string username)
         {
             DBConnection con = DBConnection.Instance();
