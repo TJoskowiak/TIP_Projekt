@@ -12,10 +12,13 @@
         <Label x:Name="Label_Results" Content="Results:&#xD;&#xA;" HorizontalAlignment="Left" Height="42" Margin="25,86,0,0" VerticalAlignment="Top" Width="100" FontSize="14" FontFamily="Sitka Text"/>
         <Button x:Name="Button_Search" Content="Search" HorizontalAlignment="Left" Height="45" Margin="130,279,0,0" VerticalAlignment="Top" Width="256" FontFamily="Sitka Text" FontSize="14" Click="Button_Search_Click"/>
         <Button x:Name="Button_Exit" Content="Exit" HorizontalAlignment="Left" Height="45" Margin="422,279,0,0" VerticalAlignment="Top" Width="256" FontFamily="Sitka Text" FontSize="14" Click="Button_Exit_Click"/>
-        <ListView x:Name="listView" HorizontalAlignment="Left" Margin="130,0,0,82" Width="548" SelectionChanged="ListView_SelectionChanged" Height="167" VerticalAlignment="Bottom">
+        <ListView x:Name="listView" HorizontalAlignment="Left" Margin="130,0,0,82" Width="548" Height="167" VerticalAlignment="Bottom">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="Username" DisplayMemberBinding="{Binding Username}" Width="100"/>
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="180"/>
+                    <GridViewColumn Header="IP-Address" DisplayMemberBinding="{Binding Ip}" Width="150"/>
+                    <GridViewColumn Header="Last Login Date" DisplayMemberBinding="{Binding Last_Login_Date}" Width="115"/>
                 </GridView>
             </ListView.View>
         </ListView>

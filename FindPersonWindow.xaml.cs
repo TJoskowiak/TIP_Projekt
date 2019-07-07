@@ -42,23 +42,13 @@ namespace VOiP_Communicator
             {
                 listView.Items.Clear();
                 UserRepo userRepo = UserRepo.Instance();
-                List<(string, string, string, string)> list = userRepo.getSimiliarUsers(username);
-                foreach ((string, string, string, string) tuple in list)
+                var resultsList = userRepo.getSimiliarUsers(username);
+                foreach (var result in resultsList)
                 {
-                    listView.Items.Add(tuple);
+                    listView.Items.Add(result);
                 }
 
             }
-        }
-
-        private void DataGrid_Results_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }
