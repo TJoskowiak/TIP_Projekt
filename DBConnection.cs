@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Configuration;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
@@ -42,9 +43,7 @@ namespace VOiP_Communicator
         {
             if (Connection == null)
             {
-                string connstring = string.Format("Server=127.0.0.1;Initial Catalog='voip' ;UID=connect; password=connect");
-                connection = new MySqlConnection(connstring);
-                
+                connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["VOIPdata"].ConnectionString);   
             }
             connection.Open();
             return true;
