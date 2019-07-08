@@ -50,5 +50,39 @@ namespace VOiP_Communicator
 
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var x = (SearchResult)listView.SelectedItem;
+            if (x != null)
+            {
+                ContactsRepo contactRepo = ContactsRepo.Instance();
+                UserRepo userRepo = UserRepo.Instance();
+
+                int subject_id = Int32.Parse(userRepo.GetColumnValueByUsername(x.Username, "user_id"));
+                int owner_id = Int32.Parse(userRepo.GetColumnValueByUsername(Globals.currentUserLogin, "user_id"));
+                DateTime created_date = DateTime.Now;
+                int is_favourite = 0;
+
+                //if not exists
+                if (contactRepo.contactExists(owner_id, subject_id))
+                {
+                    MessageBox.Show("You already have this user in your contacts");
+                }
+                else if (owner_id == subject_id)
+                {
+                    MessageBox.Show("You can't add yourself to contacts");
+                }
+                else
+                {
+                    contactRepo.createContact(owner_id, subject_id, is_favourite);
+                    MessageBox.Show("Contact added sucessfully");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select user to add");
+            }
+        }
     }
 }

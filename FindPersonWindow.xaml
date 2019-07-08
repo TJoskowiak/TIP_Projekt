@@ -10,8 +10,7 @@
         <TextBox x:Name="TextBox_Username" HorizontalAlignment="Left" Height="31" Margin="130,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="548" FontSize="14" FontFamily="Sitka Text"/>
         <Label x:Name="Label_Username" Content="Username:" HorizontalAlignment="Left" Margin="25,32,0,0" VerticalAlignment="Top" Width="100" FontSize="14" FontFamily="Sitka Text"/>
         <Label x:Name="Label_Results" Content="Results:&#xD;&#xA;" HorizontalAlignment="Left" Height="42" Margin="25,86,0,0" VerticalAlignment="Top" Width="100" FontSize="14" FontFamily="Sitka Text"/>
-        <Button x:Name="Button_Search" Content="Search" HorizontalAlignment="Left" Height="45" Margin="130,279,0,0" VerticalAlignment="Top" Width="256" FontFamily="Sitka Text" FontSize="14" Click="Button_Search_Click"/>
-        <Button x:Name="Button_Exit" Content="Exit" HorizontalAlignment="Left" Height="45" Margin="422,279,0,0" VerticalAlignment="Top" Width="256" FontFamily="Sitka Text" FontSize="14" Click="Button_Exit_Click"/>
+        <Button x:Name="Button_Exit" Content="Exit" HorizontalAlignment="Left" Height="45" Margin="533,279,0,0" VerticalAlignment="Top" Width="147" FontFamily="Sitka Text" FontSize="14" Click="Button_Exit_Click"/>
         <ListView x:Name="listView" HorizontalAlignment="Left" Margin="130,0,0,82" Width="548" Height="167" VerticalAlignment="Bottom">
             <ListView.View>
                 <GridView>
@@ -22,6 +21,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button x:Name="Button_Search_Copy" Content="Search" HorizontalAlignment="Left" Height="45" Margin="130,279,0,0" VerticalAlignment="Top" Width="147" FontFamily="Sitka Text" FontSize="14" Click="Button_Search_Click"/>
+        <Button x:Name="AddToContacsButton" Content="Add to Contacts" HorizontalAlignment="Left" Margin="332,279,0,11" Width="147" Click="Button_Click" FontSize="14"/>
 
     </Grid>
 </Window>
