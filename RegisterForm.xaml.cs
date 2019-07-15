@@ -69,7 +69,7 @@ namespace VOiP_Communicator
 
         private bool validate(string username, string email, string password, string retype_password)
         {
-            if(String.IsNullOrEmpty(username) || String.IsNullOrEmpty(email) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(retype_password))
+            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(email) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(retype_password))
             {
                 MessageBox.Show("Fill in all fields");
                 return false;
@@ -77,19 +77,19 @@ namespace VOiP_Communicator
 
              UserRepo userRepo = UserRepo.Instance();
 
-            if(!String.IsNullOrEmpty(userRepo.GetByUsername(username)))
+            if (!String.IsNullOrEmpty(userRepo.GetColumnValueByUsername(username, "username")))
             {
                 MessageBox.Show("Username is taken");
                 return false;
             }
 
-            if(!String.Equals(password, retype_password))
+            if (!String.Equals(password, retype_password))
             {
                 MessageBox.Show("You typed 2 different passwords");
                 return false;
             }
 
-            if(!IsEmailValid(email))
+            if (!IsEmailValid(email))
             {
                 MessageBox.Show("Invalid email format");
                 return false;

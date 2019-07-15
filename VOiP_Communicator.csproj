@@ -78,10 +78,12 @@
     <Compile Include="CallHistoryWindow.xaml.cs">
       <DependentUpon>CallHistoryWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContactsRepo.cs" />
     <Compile Include="DBConnection.cs" />
     <Compile Include="FindPersonWindow.xaml.cs">
       <DependentUpon>FindPersonWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Globals.cs" />
     <Compile Include="RegisterForm.xaml.cs">
       <DependentUpon>RegisterForm.xaml</DependentUpon>
     </Compile>

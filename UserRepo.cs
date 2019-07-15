@@ -18,7 +18,7 @@ namespace VOiP_Communicator
             return _instance;
         }
 
-        public string GetByUsername(string username)
+        public string GetColumnValueByUsername(string username, string column)
         {
             DBConnection con = DBConnection.Instance();
             string q = "Select * from users where username like '" + username + "';"; 
@@ -26,7 +26,7 @@ namespace VOiP_Communicator
             string result = null;
             while (reader.Read())
             {
-                result = reader["username"].ToString();
+                result = reader[column].ToString();
             }
 
             con.Close();
@@ -55,6 +55,7 @@ namespace VOiP_Communicator
         {
             DBConnection con = DBConnection.Instance();
             string q = "Select * from users where username like '" + username + "';";
+
             MySqlDataReader reader = con.query(q);
             Tuple<string, string> t = null;
             while (reader.Read())
@@ -88,6 +89,7 @@ namespace VOiP_Communicator
             DBConnection con = DBConnection.Instance();
             string q = "insert into  users (username, email, password, salt, ip_address, status, last_login_date, created_date) " +
                 "VALUES (@username, @email, @password, @salt, @ipAddress, @status, now(), now());";
+
             if (con.IsConnect())
             {
                 MySqlCommand cmd = con.Connection.CreateCommand();

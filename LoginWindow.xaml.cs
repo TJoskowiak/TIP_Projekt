@@ -52,7 +52,7 @@ namespace VOiP_Communicator
 
             UserRepo userRepo = UserRepo.Instance();
 
-            if (String.IsNullOrEmpty(userRepo.GetByUsername(login)))
+            if (String.IsNullOrEmpty(userRepo.GetColumnValueByUsername(login, "username")))
             {
                 MessageBox.Show("No such user in database");
                 return false;
@@ -65,6 +65,8 @@ namespace VOiP_Communicator
                 MessageBox.Show("Invalid password");
                 return false;
             }
+
+            Globals.currentUserLogin = userRepo.GetColumnValueByUsername(login, "username");
 
             return true;
         }
