@@ -37,8 +37,9 @@ namespace VOiP_Communicator
 
         private void Button_FindPerson_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            this.IsEnabled = false;
             FindPersonWindow fpw = new FindPersonWindow();
+            fpw.Owner = this;
             fpw.Show();
         }
     }

@@ -31,9 +31,8 @@ namespace VOiP_Communicator
 
         private void Back_Click_1(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-            LoginWindow lw = new LoginWindow();
-            lw.Show();
+            this.Close();
+            this.Owner.IsEnabled = true;
         }
 
         private void Register_Click(object sender, RoutedEventArgs e)
@@ -61,11 +60,9 @@ namespace VOiP_Communicator
                 string passwordHash = SHA512(password + salt);
 
                 userRepo.createUser(username, email, passwordHash, salt, GetLocalIPAddress(), 0);
-                this.Hide();
+                this.Close();
                 MessageBox.Show("You have succesfully registered, now you can login");
-                
-                LoginWindow lw = new LoginWindow();
-                lw.Show();
+                this.Owner.IsEnabled = true;
             }
             
         }

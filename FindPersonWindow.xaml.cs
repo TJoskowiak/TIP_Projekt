@@ -22,13 +22,13 @@ namespace VOiP_Communicator
         public FindPersonWindow()
         {
             InitializeComponent();
+           
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-            WindowMain mw = new WindowMain();
-            mw.Show();
+            this.Close();
+            this.Owner.IsEnabled = true;
         }
 
         private void Button_Search_Click(object sender, RoutedEventArgs e)

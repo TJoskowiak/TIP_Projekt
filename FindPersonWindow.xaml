@@ -6,22 +6,22 @@
         xmlns:local="clr-namespace:VOiP_Communicator"
         mc:Ignorable="d"
         Title="Find Person" Height="365.295" Width="725.882">
+   
     <Grid>
         <TextBox x:Name="TextBox_Username" HorizontalAlignment="Left" Height="31" Margin="130,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="548" FontSize="14" FontFamily="Sitka Text"/>
         <Label x:Name="Label_Username" Content="Username:" HorizontalAlignment="Left" Margin="25,32,0,0" VerticalAlignment="Top" Width="100" FontSize="14" FontFamily="Sitka Text"/>
         <Label x:Name="Label_Results" Content="Results:&#xD;&#xA;" HorizontalAlignment="Left" Height="42" Margin="25,86,0,0" VerticalAlignment="Top" Width="100" FontSize="14" FontFamily="Sitka Text"/>
         <Button x:Name="Button_Search" Content="Search" HorizontalAlignment="Left" Height="45" Margin="130,279,0,0" VerticalAlignment="Top" Width="256" FontFamily="Sitka Text" FontSize="14" Click="Button_Search_Click"/>
         <Button x:Name="Button_Exit" Content="Exit" HorizontalAlignment="Left" Height="45" Margin="422,279,0,0" VerticalAlignment="Top" Width="256" FontFamily="Sitka Text" FontSize="14" Click="Button_Exit_Click"/>
-        <ListView x:Name="listView" HorizontalAlignment="Left" Margin="130,0,0,82" Width="548" Height="167" VerticalAlignment="Bottom">
+        <ListView x:Name="listView" Margin="130,0,0,82" Width="548" Height="167" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Username" DisplayMemberBinding="{Binding Username}" Width="100"/>
-                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="180"/>
-                    <GridViewColumn Header="IP-Address" DisplayMemberBinding="{Binding Ip}" Width="150"/>
-                    <GridViewColumn Header="Last Login Date" DisplayMemberBinding="{Binding Last_Login_Date}" Width="115"/>
+                    <GridViewColumn Header="Username" DisplayMemberBinding="{Binding Username}" Width="150" />
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="130" />
+                    <GridViewColumn Header="IP-Address" DisplayMemberBinding="{Binding Ip}" Width="130" />
+                    <GridViewColumn Header="Last Login Date" DisplayMemberBinding="{Binding Last_Login_Date}" Width="115" />
                 </GridView>
             </ListView.View>
         </ListView>
-
     </Grid>
 </Window>

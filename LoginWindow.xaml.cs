@@ -23,9 +23,10 @@ namespace VOiP_Communicator
 
         private void Button_Register_Click(object sender, RoutedEventArgs e)
         {
+            this.IsEnabled = false;
             RegisterForm rf = new RegisterForm();
+            rf.Owner = this;
             rf.Show();
-            this.Hide();
         }
 
         private void Button_Login_Click(object sender, RoutedEventArgs e)
@@ -35,7 +36,7 @@ namespace VOiP_Communicator
                 UserRepo userRepo = UserRepo.Instance();
 
                 userRepo.updateLogin(Login.Text, GetLocalIPAddress());
-                this.Hide();
+                this.Close();
                 WindowMain wm = new WindowMain();
                 wm.Show();
             }
