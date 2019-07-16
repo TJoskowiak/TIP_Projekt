@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:local="clr-namespace:VOiP_Communicator"
         mc:Ignorable="d"
         Title="VOiP Communicator" Height="467.491" Width="571.966">
@@ -22,6 +23,5 @@
         <Button x:Name="Button_FindPerson" Content="Find..." HorizontalAlignment="Left" Height="30" Margin="415,396,0,0" VerticalAlignment="Top" Width="139" Click="Button_FindPerson_Click"/>
         <Button x:Name="Button_History" Content="History" HorizontalAlignment="Left" Height="30" Margin="204,396,0,0" VerticalAlignment="Top" Width="206"/>
         <Button x:Name="Button_Options" Content="Options" HorizontalAlignment="Left" Height="30" Margin="11,396,0,0" VerticalAlignment="Top" Width="188"/>
-
     </Grid>
 </Window>
