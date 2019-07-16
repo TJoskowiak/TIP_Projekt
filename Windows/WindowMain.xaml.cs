@@ -23,11 +23,7 @@ namespace VOiP_Communicator
         public WindowMain()
         {
             InitializeComponent();
-        }
-
-        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
-        {
-
+            loadContacts();
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -41,6 +37,39 @@ namespace VOiP_Communicator
             FindPersonWindow fpw = new FindPersonWindow();
             fpw.Owner = this;
             fpw.Show();
+        }
+
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        public void loadContacts()
+        {
+
+            listBox.Items.Clear();
+            ContactsRepo contRepo = ContactsRepo.Instance();
+            UserRepo userRepo = UserRepo.Instance();
+
+            var resultsList = contRepo.getAllCurrentContacts();
+            resultsList = userRepo.getUsernamesByIds(resultsList);
+
+
+            foreach (var result in resultsList)
+            {
+                listBox.Items.Add(result);
+            }
         }
     }
 }

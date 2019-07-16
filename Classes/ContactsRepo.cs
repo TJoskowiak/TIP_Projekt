@@ -1,9 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace VOiP_Communicator
@@ -62,6 +58,25 @@ namespace VOiP_Communicator
             {
                 return true;
             }
+        }
+
+        public List<string> getAllCurrentContacts()
+        {
+            DBConnection con = DBConnection.Instance();
+            int user_id = Globals.currentUserId;
+
+            string q = "Select subject_id from contacts where owner_id = " + user_id.ToString() + ";";
+            MySqlDataReader reader = con.query(q);
+            var results = new List<string>();
+
+            while (reader.Read())
+            {
+                results.Add(reader["subject_id"].ToString());
+            }
+
+            con.Close();
+
+            return results;
         }
     }
 

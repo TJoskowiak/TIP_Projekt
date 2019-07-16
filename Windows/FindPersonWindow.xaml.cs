@@ -64,7 +64,6 @@ namespace VOiP_Communicator
                 DateTime created_date = DateTime.Now;
                 int is_favourite = 0;
 
-                //if not exists
                 if (contactRepo.contactExists(owner_id, subject_id))
                 {
                     MessageBox.Show("You already have this user in your contacts");
@@ -77,6 +76,7 @@ namespace VOiP_Communicator
                 {
                     contactRepo.createContact(owner_id, subject_id, is_favourite);
                     MessageBox.Show("Contact added sucessfully");
+                    ((WindowMain)this.Owner).loadContacts();
                 }
             }
             else

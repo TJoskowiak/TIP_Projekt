@@ -34,6 +34,31 @@ namespace VOiP_Communicator
             return result;
         }
 
+        public List<string> getUsernamesByIds(List<string> ids)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "Select username from users where  FIND_IN_SET(user_id, @ids) != 0;";
+            List<string> result = new List<string>();
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = new MySqlCommand(q, con.Connection);
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("ids", string.Join(",", ids));
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+            
+     
+
+            while (reader.Read())
+            {
+                result.Add(reader["username"].ToString());
+            }
+
+            con.Close();
+            }
+            return result;
+        }
+
         public List<SearchResult> getSimiliarUsers(string username)
         {
             DBConnection con = DBConnection.Instance();

@@ -9,5 +9,6 @@ namespace VOiP_Communicator
     public static class Globals
     {
         public static string currentUserLogin;
+        public static int currentUserId;
     }
 }

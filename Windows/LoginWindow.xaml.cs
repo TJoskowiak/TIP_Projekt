@@ -36,9 +36,10 @@ namespace VOiP_Communicator
                 UserRepo userRepo = UserRepo.Instance();
 
                 userRepo.updateLogin(Login.Text, GetLocalIPAddress());
-                this.Close();
                 WindowMain wm = new WindowMain();
                 wm.Show();
+                this.Close();
+
             }
         }
 
@@ -67,6 +68,7 @@ namespace VOiP_Communicator
             }
 
             Globals.currentUserLogin = userRepo.GetColumnValueByUsername(login, "username");
+            Globals.currentUserId = System.Convert.ToInt32(userRepo.GetColumnValueByUsername(login, "user_id"));
 
             return true;
         }
