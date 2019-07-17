@@ -23,6 +23,7 @@ namespace VOiP_Communicator
         public WindowMain()
         {
             InitializeComponent();
+
             loadContacts();
         }
 
@@ -70,6 +71,12 @@ namespace VOiP_Communicator
             {
                 listBox.Items.Add(result);
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            UserRepo userRepo = UserRepo.Instance();
+            userRepo.setUserOffline(Globals.currentUserLogin);
         }
     }
 }

@@ -96,7 +96,7 @@ namespace VOiP_Communicator
         public void updateLogin(string username, string ipAddress)
         {
             DBConnection con = DBConnection.Instance();
-            string q = "UPDATE users set ip_address = @ipAddress, last_login_date = now() where username like @username";
+            string q = "UPDATE users set ip_address = @ipAddress, last_login_date = now(), status = status | 1 where username like @username";
 
             if (con.IsConnect())
             {
@@ -104,6 +104,21 @@ namespace VOiP_Communicator
                 cmd.CommandText = q;
                 cmd.Parameters.AddWithValue("@username", username);
                 cmd.Parameters.AddWithValue("@ipAddress", ipAddress);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        public void setUserOffline(string username)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "UPDATE users set status = status & ~1 where username like @username";
+
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = con.Connection.CreateCommand();
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@username", username);
                 cmd.ExecuteNonQuery();
                 con.Close();
             }

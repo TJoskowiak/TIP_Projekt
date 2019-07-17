@@ -84,5 +84,10 @@ namespace VOiP_Communicator
                 MessageBox.Show("Select user to add");
             }
         }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

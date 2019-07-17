@@ -6,7 +6,7 @@
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:local="clr-namespace:VOiP_Communicator"
         mc:Ignorable="d"
-        Title="VOiP Communicator" Height="410.824" Width="611.966">
+        Title="VOiP Communicator" Height="410.824" Width="611.966" Closed="Window_Closed">
     <Grid>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="324" Margin="10,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="390"/>
         <Button x:Name="Button_Connect" Content="Connect" HorizontalAlignment="Left" Height="31" Margin="17,284,0,0" VerticalAlignment="Top" Width="97"/>
@@ -18,7 +18,7 @@
         <Button x:Name="Button_FindPerson" Content="Find..." HorizontalAlignment="Left" Height="30" Margin="281,339,0,0" VerticalAlignment="Top" Width="119" Click="Button_FindPerson_Click"/>
         <Button x:Name="Button_History" Content="History" HorizontalAlignment="Left" Height="30" Margin="146,339,0,0" VerticalAlignment="Top" Width="124"/>
         <Button x:Name="Button_Options" Content="Options" HorizontalAlignment="Left" Height="30" Margin="10,339,0,0" VerticalAlignment="Top" Width="121"/>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="324" Margin="415,10,0,0" VerticalAlignment="Top" Width="179" SelectionChanged="ListBox_SelectionChanged"/>
+        <ListBox x:Name="listBox"  HorizontalContentAlignment="Center" HorizontalAlignment="Center" Height="324" Margin="415,10,0,0" VerticalAlignment="Top" Width="179" SelectionChanged="ListBox_SelectionChanged"/>
         <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="415,341,0,0" VerticalAlignment="Top" Width="179" Height="28" SelectionChanged="ComboBox_SelectionChanged">
             <ComboBoxItem Content="All" HorizontalAlignment="Left" Width="137" Selected="ComboBoxItem_Selected"/>
             <ComboBoxItem Content="Online" HorizontalAlignment="Left" Width="137"/>
