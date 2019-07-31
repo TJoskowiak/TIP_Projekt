@@ -45,20 +45,8 @@ namespace VOiP_Communicator
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string text = (e.AddedItems[0] as ComboBoxItem).Content as string;
-
-            switch (text)
-            {
-                case "All":
-                    loadAllContacts();
-                    break;
-                case "Online":
-                    loadOnlineContacts();
-                    break;
-                case "Favourite":
-                    loadFavouriteContacts();
-                    break;
-            }
+            refreshListBox();
+            favourite.Content = "Mark as favourite";
         }
 
         private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
@@ -68,21 +56,37 @@ namespace VOiP_Communicator
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            string text = (string)listBox.SelectedItem;
 
+            textBlock.Text = text;
+            Contact selectedItem = getContactByUsername(text);
+            if (selectedItem != null)
+            {
+                if (selectedItem.IsFavourite)
+                {
+                    favourite.Content = "Remove from favourites";
+                }
+                else favourite.Content = "Mark as favourite";
+            }
         }
 
         public void loadContacts()
         {
-
             listBox.Items.Clear();
-            ContactsRepo contRepo = ContactsRepo.Instance();
-
-            resultsList = contRepo.getAllCurrentContacts();
+            loadContactsFromDb();
 
             foreach (Contact result in resultsList)
             {
                 listBox.Items.Add(result.Username);
             }
+        }
+
+        public void loadContactsFromDb()
+        {
+            ContactsRepo contRepo = ContactsRepo.Instance();
+
+            resultsList = contRepo.getAllCurrentContacts();
+
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -93,7 +97,7 @@ namespace VOiP_Communicator
 
         private void loadAllContacts()
         {
-            loadContacts();
+            loadContactsFromDb();
             listBox.Items.Clear();
             foreach (Contact result in resultsList)
             {
@@ -103,8 +107,9 @@ namespace VOiP_Communicator
 
         private void loadOnlineContacts()
         {
-            loadContacts();
+            loadContactsFromDb();
             listBox.Items.Clear();
+
             foreach (Contact result in resultsList)
             {
                 if((result.Status & 1) == 1)
@@ -114,12 +119,69 @@ namespace VOiP_Communicator
 
         private void loadFavouriteContacts()
         {
-            loadContacts();
+            loadContactsFromDb();
             listBox.Items.Clear();
+
             foreach (Contact result in resultsList)
             {
                 if(result.IsFavourite)
                 listBox.Items.Add(result.Username);
+            }
+        }
+
+        private void FavouriteClick(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = listBox.SelectedItem;
+            string text = (string)listBox.SelectedItem;
+
+            ContactsRepo contRepo = ContactsRepo.Instance();
+            Contact selectedContact = getContactByUsername(text);
+            contRepo.toggleFavourite(selectedContact.SubjectId, Globals.currentUserId);
+            MessageBox.Show("Change sucessfully saved");
+            refreshListBox();
+            favourite.Content = "Mark as favourite";
+            textBlock.Text = text;
+            listBox.SelectedItem = selectedItem;
+        }
+
+        private Contact getContactByUsername(string Username)
+        {
+            foreach (Contact result in resultsList)
+            {
+                if (result.Username == Username)
+                {
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
+        private void refreshListBox()
+        {
+            if (comboBox.SelectedItem != null)
+            {
+                string text = ((ComboBoxItem)comboBox.SelectedItem).Content.ToString();
+
+                switch (text)
+                {
+                    case "All":
+
+                        loadAllContacts();
+                        break;
+                    case "Online":
+
+                        loadOnlineContacts();
+                        break;
+                    case "Favourite":
+
+                        loadFavouriteContacts();
+                        break;
+                }
+            }
+            else
+            {
+                loadAllContacts();
             }
         }
     }
