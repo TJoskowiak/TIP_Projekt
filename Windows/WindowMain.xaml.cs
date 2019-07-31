@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VOiP_Communicator.Classes;
 
 namespace VOiP_Communicator
 {
@@ -20,6 +21,7 @@ namespace VOiP_Communicator
     /// </summary>
     public partial class WindowMain : Window
     {
+        private List<Contact> resultsList;
         public WindowMain()
         {
             InitializeComponent();
@@ -43,7 +45,20 @@ namespace VOiP_Communicator
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            string text = (e.AddedItems[0] as ComboBoxItem).Content as string;
 
+            switch (text)
+            {
+                case "All":
+                    loadAllContacts();
+                    break;
+                case "Online":
+                    loadOnlineContacts();
+                    break;
+                case "Favourite":
+                    loadFavouriteContacts();
+                    break;
+            }
         }
 
         private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
@@ -61,15 +76,12 @@ namespace VOiP_Communicator
 
             listBox.Items.Clear();
             ContactsRepo contRepo = ContactsRepo.Instance();
-            UserRepo userRepo = UserRepo.Instance();
 
-            var resultsList = contRepo.getAllCurrentContacts();
-            resultsList = userRepo.getUsernamesByIds(resultsList);
+            resultsList = contRepo.getAllCurrentContacts();
 
-
-            foreach (var result in resultsList)
+            foreach (Contact result in resultsList)
             {
-                listBox.Items.Add(result);
+                listBox.Items.Add(result.Username);
             }
         }
 
@@ -77,6 +89,38 @@ namespace VOiP_Communicator
         {
             UserRepo userRepo = UserRepo.Instance();
             userRepo.setUserOffline(Globals.currentUserLogin);
+        }
+
+        private void loadAllContacts()
+        {
+            loadContacts();
+            listBox.Items.Clear();
+            foreach (Contact result in resultsList)
+            {
+                listBox.Items.Add(result.Username);
+            }
+        }
+
+        private void loadOnlineContacts()
+        {
+            loadContacts();
+            listBox.Items.Clear();
+            foreach (Contact result in resultsList)
+            {
+                if((result.Status & 1) == 1)
+                listBox.Items.Add(result.Username);
+            }
+        }
+
+        private void loadFavouriteContacts()
+        {
+            loadContacts();
+            listBox.Items.Clear();
+            foreach (Contact result in resultsList)
+            {
+                if(result.IsFavourite)
+                listBox.Items.Add(result.Username);
+            }
         }
     }
 }

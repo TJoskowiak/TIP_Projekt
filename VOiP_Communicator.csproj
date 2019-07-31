@@ -99,6 +99,7 @@
     <Compile Include="Classes\ALawDecoder.cs" />
     <Compile Include="Classes\ALawEncoder.cs" />
     <Compile Include="Classes\CallManager.cs" />
+    <Compile Include="Classes\Contact.cs" />
     <Compile Include="Classes\Data.cs" />
     <Compile Include="Classes\MuLawDecoder.cs" />
     <Compile Include="Classes\MuLawEncoder.cs" />

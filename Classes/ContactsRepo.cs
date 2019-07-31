@@ -1,6 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Windows;
+using VOiP_Communicator.Classes;
 
 namespace VOiP_Communicator
 {
@@ -60,18 +62,28 @@ namespace VOiP_Communicator
             }
         }
 
-        public List<string> getAllCurrentContacts()
+        public List<Contact> getAllCurrentContacts()
         {
             DBConnection con = DBConnection.Instance();
             int user_id = Globals.currentUserId;
 
-            string q = "Select subject_id from contacts where owner_id = " + user_id.ToString() + ";";
+            string q = "Select u.username, c.subject_id, c.is_favourite, u.ip_address, u.status, u.profile_picture from contacts c " +
+                "join users u on c.subject_id = u.user_id where c.owner_id = " + user_id.ToString() + ";";
+
             MySqlDataReader reader = con.query(q);
-            var results = new List<string>();
+            var results = new List<Contact>();
 
             while (reader.Read())
             {
-                results.Add(reader["subject_id"].ToString());
+                Contact c = new Contact();
+                c.Username = reader["username"].ToString();
+                c.SubjectId =  Int32.Parse(reader["subject_id"].ToString());
+                c.IsFavourite = Convert.ToBoolean(reader["is_favourite"].ToString());
+                c.Ip = reader["ip_address"].ToString();
+                c.Status = Int32.Parse(reader["status"].ToString());
+                c.Photo = null;
+
+                results.Add(c);
             }
 
             con.Close();
