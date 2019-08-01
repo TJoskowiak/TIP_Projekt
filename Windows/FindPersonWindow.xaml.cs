@@ -76,7 +76,7 @@ namespace VOiP_Communicator
                 {
                     contactRepo.createContact(owner_id, subject_id, is_favourite);
                     MessageBox.Show("Contact added sucessfully");
-                    ((WindowMain)this.Owner).loadContacts();
+                    ((WindowMain)this.Owner).refreshListBox();
                 }
             }
             else
@@ -87,7 +87,6 @@ namespace VOiP_Communicator
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
     }
 }

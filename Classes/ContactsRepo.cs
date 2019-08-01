@@ -38,6 +38,7 @@ namespace VOiP_Communicator
                 MessageBox.Show("Problems with database");
             }
         }
+
         public void toggleFavourite(int SubjectId, int OwnerId)
         {
             DBConnection con = DBConnection.Instance();
@@ -58,6 +59,28 @@ namespace VOiP_Communicator
                 MessageBox.Show("Problems with database");
             }
         }
+
+        public void removeContact(int SubjectId, int OwnerId)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "Delete from contacts where owner_id = @owner_id and subject_id = @subject_id";
+
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = con.Connection.CreateCommand();
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@owner_id", OwnerId);
+                cmd.Parameters.AddWithValue("@subject_id", SubjectId);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+
+            else
+            {
+                MessageBox.Show("Problems with database");
+            }
+        }
+
         public bool contactExists(int owner_id, int subject_id)
         {
             DBConnection con = DBConnection.Instance();

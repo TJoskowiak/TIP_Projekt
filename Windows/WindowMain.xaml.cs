@@ -28,8 +28,7 @@ namespace VOiP_Communicator
         {
             InitializeComponent();
 
-            loadContacts();
-            
+            loadAllContacts();
         }
         
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -70,17 +69,6 @@ namespace VOiP_Communicator
                     favourite.Content = "Remove from favourites";
                 }
                 else favourite.Content = "Mark as favourite";
-            }
-        }
-
-        public void loadContacts()
-        {
-            listBox.Items.Clear();
-            loadContactsFromDb();
-
-            foreach (Contact result in resultsList)
-            {
-                listBox.Items.Add(result.Username);
             }
         }
 
@@ -160,7 +148,7 @@ namespace VOiP_Communicator
             return null;
         }
 
-        private void refreshListBox()
+        public void refreshListBox()
         {
             if (comboBox.SelectedItem != null)
             {
@@ -190,7 +178,7 @@ namespace VOiP_Communicator
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Manager = new CallManager(this);
+           // Manager = new CallManager(this);
             Console.WriteLine("On Load");
         }
 
@@ -204,6 +192,18 @@ namespace VOiP_Communicator
         {
             Manager.DropCall();
             Console.WriteLine("On Call Drop");
+        }
+
+        private void Remove_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = listBox.SelectedItem;
+            string text = (string)listBox.SelectedItem;
+
+            ContactsRepo contRepo = ContactsRepo.Instance();
+            Contact selectedContact = getContactByUsername(text);
+            contRepo.removeContact(selectedContact.SubjectId, Globals.currentUserId);
+            MessageBox.Show("Change sucessfully saved");
+            refreshListBox();
         }
     }
 }
