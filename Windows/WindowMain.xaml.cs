@@ -21,14 +21,17 @@ namespace VOiP_Communicator
     /// </summary>
     public partial class WindowMain : Window
     {
+        private CallManager Manager;
+
         private List<Contact> resultsList;
         public WindowMain()
         {
             InitializeComponent();
 
             loadContacts();
+            
         }
-
+        
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -183,6 +186,24 @@ namespace VOiP_Communicator
             {
                 loadAllContacts();
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Manager = new CallManager(this);
+            Console.WriteLine("On Load");
+        }
+
+        private void Button_Connect_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.Call(Vocoder.None);
+            Console.WriteLine("On Call Send");
+        }
+
+        private void Button_End_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.DropCall();
+            Console.WriteLine("On Call Drop");
         }
     }
 }

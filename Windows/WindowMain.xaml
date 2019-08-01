@@ -6,12 +6,12 @@
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:local="clr-namespace:VOiP_Communicator"
         mc:Ignorable="d"
-        Title="VOiP Communicator" Height="410.824" Width="611.966" Closed="Window_Closed">
+        Title="VOiP Communicator" Height="410.824" Width="611.966" Closed="Window_Closed" Loaded="Window_Loaded">
     <Grid>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="324" Margin="10,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="390"/>
-        <Button x:Name="Button_Connect" Content="Connect" HorizontalAlignment="Left" Height="31" Margin="34,273,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="0.286,-0.602"/>
+        <Button x:Name="Button_Connect" Content="Connect" HorizontalAlignment="Left" Height="31" Margin="34,273,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="0.286,-0.602" Click="Button_Connect_Click"/>
         <Button x:Name="Button_Mute" Content="Mute" HorizontalAlignment="Left" Height="31" Margin="161,273,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="0.29,1.649"/>
-        <Button x:Name="Button_End" Content="End" HorizontalAlignment="Left" Height="31" Margin="287,273,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="0.509,1.474"/>
+        <Button x:Name="Button_End" Content="End" HorizontalAlignment="Left" Height="31" Margin="287,273,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="0.509,1.474" Click="Button_End_Click"/>
         <Label x:Name="Label_TimeElapsed" Content="00:00" HorizontalAlignment="Left" Height="32" Margin="256,129,0,0" VerticalAlignment="Top" Width="68" FontSize="20" FontFamily="Sitka Text"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="141" Margin="34,20,0,0" Stroke="Black" VerticalAlignment="Top" Width="132" RenderTransformOrigin="0.5,0.202"/>
         <Label x:Name="Label_USername" Content="Name:" HorizontalAlignment="Left" Height="31" Margin="194,20,0,0" VerticalAlignment="Top" Width="100" FontSize="16"/>

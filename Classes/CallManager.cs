@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Windows;
 using Microsoft.DirectX.DirectSound;
 using System.IO;
 using System.Threading;
@@ -120,14 +121,15 @@ namespace VOiP_Communicator.Classes
                                            new AsyncCallback(OnReceive),
                                            null);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.Message, "VoiceChat-Initialize ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+               
+                MessageBox.Show(e.ToString(), "Initialization Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
 
         // Starts a call
-        private void Call(Vocoder EncryptionType)
+        public void Call(Vocoder EncryptionType)
         {
             try
             {
@@ -140,9 +142,9 @@ namespace VOiP_Communicator.Classes
                 //Send an invite message.
                 SendMessage(Command.Invite, otherPartyEP);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.Message, "VoiceChat-Call ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.ToString(), "VoiceChat-Call ()", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
 
@@ -153,9 +155,9 @@ namespace VOiP_Communicator.Classes
             {
                 clientSocket.EndSendTo(ar);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.Message, "VoiceChat-OnSend ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "VoiceChat-OnSend ()", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
 
@@ -185,10 +187,8 @@ namespace VOiP_Communicator.Classes
                                 //We have no active call.
 
                                 //Ask the user to accept the call or not.
-                                //FIX ME
-                                if (//MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
-                                    //"VoiceChat", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes
-                                    true)
+                                if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
+                                    "VoiceChat", MessageBoxButton.YesNo, MessageBoxImage.Question,MessageBoxResult.Yes) == MessageBoxResult.Yes)
                                 {
                                     SendMessage(Command.OK, receivedFromEP);
                                     vocoder = msgReceived.vocoder;
@@ -221,7 +221,7 @@ namespace VOiP_Communicator.Classes
                     //Remote party is busy.
                     case Command.Busy:
                         {
-                            //MessageBox.Show("User busy.", "VoiceChat", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show("User busy.", "VoiceChat", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
                             break;
                         }
 
@@ -243,9 +243,9 @@ namespace VOiP_Communicator.Classes
                 //Get ready to receive more commands.
                 clientSocket.BeginReceiveFrom(byteData, 0, byteData.Length, SocketFlags.None, ref receivedFromEP, new AsyncCallback(OnReceive), null);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.Message, "VoiceChat-OnReceive ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "VoiceChat-OnReceive ()", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
 
@@ -301,9 +301,9 @@ namespace VOiP_Communicator.Classes
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.Message, "VoiceChat-Send ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.ToString(), "VoiceChat-Send ()", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
             finally
             {
@@ -365,9 +365,9 @@ namespace VOiP_Communicator.Classes
                     playbackBuffer.Play(0, BufferPlayFlags.Default);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.Message, "VoiceChat-Receive ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "VoiceChat-Receive ()", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
             finally
             {
@@ -391,9 +391,9 @@ namespace VOiP_Communicator.Classes
 
                 notify.SetNotificationPositions(new BufferPositionNotify[] { bufferPositionNotify1, bufferPositionNotify2 });
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.Message, "VoiceChat-CreateNotifyPositions ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "VoiceChat-CreateNotifyPositions ()", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
 
@@ -408,7 +408,7 @@ namespace VOiP_Communicator.Classes
             //btnEndCall.Enabled = false;
         }
 
-        private void DropCall()
+        public void DropCall()
         {
             try
             {
@@ -416,9 +416,9 @@ namespace VOiP_Communicator.Classes
                 SendMessage(Command.Bye, otherPartyEP);
                 UninitializeCall();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.Message, "VoiceChat-DropCall ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.ToString(), "VoiceChat-DropCall ()", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
 
@@ -439,9 +439,9 @@ namespace VOiP_Communicator.Classes
                 //btnCall.Enabled = false;
                 //btnEndCall.Enabled = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.Message, "VoiceChat-InitializeCall ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "VoiceChat-InitializeCall ()", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
 
@@ -455,7 +455,7 @@ namespace VOiP_Communicator.Classes
                 //Create the message to send.
                 Data msgToSend = new Data();
 
-                msgToSend.strName = "UMPA LUMPAS";//txtName.Text;   //Name of the user.
+                msgToSend.strName = "Test1";  //txtName.Text;   //Name of the user.
                 msgToSend.cmdCommand = cmd;         //Message to send.
                 msgToSend.vocoder = vocoder;        //Vocoder to be used.
 
@@ -464,9 +464,9 @@ namespace VOiP_Communicator.Classes
                 //Send the message asynchronously.
                 clientSocket.BeginSendTo(message, 0, message.Length, SocketFlags.None, sendToEP, new AsyncCallback(OnSend), null);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.Message, "VoiceChat-SendMessage ()", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "VoiceChat-SendMessage ()", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
 
