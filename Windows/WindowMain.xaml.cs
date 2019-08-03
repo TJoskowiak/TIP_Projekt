@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VOiP_Communicator.Classes;
+using VOiP_Communicator.Windows;
 
 namespace VOiP_Communicator
 {
@@ -204,6 +205,14 @@ namespace VOiP_Communicator
             contRepo.removeContact(selectedContact.SubjectId, Globals.currentUserId);
             MessageBox.Show("Change sucessfully saved");
             refreshListBox();
+        }
+
+        private void Button_Options_Click(object sender, RoutedEventArgs e)
+        {
+            this.IsEnabled = false;
+            OptionsWindow ow = new OptionsWindow();
+            ow.Owner = this;
+            ow.Show();
         }
     }
 }
