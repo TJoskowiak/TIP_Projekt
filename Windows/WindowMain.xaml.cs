@@ -61,7 +61,7 @@ namespace VOiP_Communicator
         {
             string text = (string)listBox.SelectedItem;
 
-            textBlock.Text = text;
+            TextName.Text = text;
             Contact selectedItem = getContactByUsername(text);
             if (selectedItem != null)
             {
@@ -132,7 +132,7 @@ namespace VOiP_Communicator
             MessageBox.Show("Change sucessfully saved");
             refreshListBox();
             favourite.Content = "Mark as favourite";
-            textBlock.Text = text;
+            TextName.Text = text;
             listBox.SelectedItem = selectedItem;
         }
 
@@ -179,13 +179,15 @@ namespace VOiP_Communicator
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-           // Manager = new CallManager(this);
+            Manager = new CallManager(this);
             Console.WriteLine("On Load");
         }
 
         private void Button_Connect_Click(object sender, RoutedEventArgs e)
         {
-            Manager.Call(Vocoder.None);
+            string ContactIP = getContactByUsername(TextName.Text.ToString()).Ip;
+            Console.WriteLine(ContactIP);
+            Manager.Call(Vocoder.ALaw, ContactIP);
             Console.WriteLine("On Call Send");
         }
 
@@ -197,7 +199,6 @@ namespace VOiP_Communicator
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = listBox.SelectedItem;
             string text = (string)listBox.SelectedItem;
 
             ContactsRepo contRepo = ContactsRepo.Instance();

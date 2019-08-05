@@ -129,12 +129,12 @@ namespace VOiP_Communicator.Classes
         }
 
         // Starts a call
-        public void Call(Vocoder EncryptionType)
+        public void Call(Vocoder EncryptionType, string IP, int port = 1450)
         {
             try
             {
                 //Get the IP we want to call.
-                otherPartyIP = new IPEndPoint(IPAddress.Parse("192.168.0.111"), 1450);
+                otherPartyIP = new IPEndPoint(IPAddress.Parse(IP), port);
                 otherPartyEP = (EndPoint)otherPartyIP;
 
                 vocoder = EncryptionType;
@@ -358,7 +358,7 @@ namespace VOiP_Communicator.Classes
                         byteDecodedData = byteData;
                     }
 
-
+                    Console.Write("aaaaaaa");
                     //Play the data received to the user.
                     playbackBuffer = new SecondaryBuffer(playbackBufferDescription, device);
                     playbackBuffer.Write(0, byteDecodedData, LockFlag.None);

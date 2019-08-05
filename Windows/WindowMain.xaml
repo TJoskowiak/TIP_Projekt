@@ -24,7 +24,7 @@
             <ComboBoxItem Content="Online" HorizontalAlignment="Left" Width="137"/>
             <ComboBoxItem Content="Favourite" HorizontalAlignment="Left" Width="137"/>
         </ComboBox>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="259,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" FontSize="16" Height="30" RenderTransformOrigin="0.501,1.104"/>
+        <TextBlock x:Name="TextName" HorizontalAlignment="Left" Margin="259,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" FontSize="16" Height="30" RenderTransformOrigin="0.501,1.104"/>
         <Button x:Name="favourite" Content="Mark as favourite" HorizontalAlignment="Left" Margin="57,181,0,0" VerticalAlignment="Top" Width="132" Height="31" Click="FavouriteClick"/>
         <Button x:Name="remove" Content="X" HorizontalAlignment="Left" Margin="18,21,0,0" VerticalAlignment="Top" Width="29" Height="31" Background="IndianRed" RenderTransformOrigin="-0.545,0.248" Click="Remove_Click"/>
     </Grid>
