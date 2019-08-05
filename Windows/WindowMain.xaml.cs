@@ -185,7 +185,8 @@ namespace VOiP_Communicator
 
         private void Button_Connect_Click(object sender, RoutedEventArgs e)
         {
-            string ContactIP = getContactByUsername(TextName.Text.ToString()).Ip;
+            string text = (string)listBox.SelectedItem;
+            string ContactIP = getContactByUsername(text).Ip;
             Console.WriteLine(ContactIP);
             Manager.Call(ContactIP);
            
