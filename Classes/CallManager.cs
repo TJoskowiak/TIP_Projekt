@@ -55,7 +55,6 @@ namespace VOiP_Communicator.Classes
         private IPEndPoint otherPartyIP;            //IP of party we want to make a call.
         private EndPoint otherPartyEP;
         private volatile bool bIsCallActive;                 //Tells whether we have an active call.
-        private Vocoder vocoder;
         private byte[] byteData = new byte[1024];   //Buffer to store the data received.
         private volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
 
@@ -129,15 +128,13 @@ namespace VOiP_Communicator.Classes
         }
 
         // Starts a call
-        public void Call(Vocoder EncryptionType, string IP, int port = 1450)
+        public void Call(string IP, int port = 1450)
         {
             try
             {
                 //Get the IP we want to call.
                 otherPartyIP = new IPEndPoint(IPAddress.Parse(IP), port);
                 otherPartyEP = (EndPoint)otherPartyIP;
-
-                vocoder = EncryptionType;
 
                 //Send an invite message.
                 SendMessage(Command.Invite, otherPartyEP);
@@ -191,7 +188,6 @@ namespace VOiP_Communicator.Classes
                                     "VoiceChat", MessageBoxButton.YesNo, MessageBoxImage.Question,MessageBoxResult.Yes) == MessageBoxResult.Yes)
                                 {
                                     SendMessage(Command.OK, receivedFromEP);
-                                    vocoder = msgReceived.vocoder;
                                     otherPartyEP = receivedFromEP;
                                     otherPartyIP = (IPEndPoint)receivedFromEP;
                                     InitializeCall();
@@ -283,22 +279,10 @@ namespace VOiP_Communicator.Classes
                     //TODO: Fix this ugly way of initializing differently.
 
                     //Choose the vocoder. And then send the data to other party at port 1550.
-
-                    if (vocoder == Vocoder.ALaw)
-                    {
-                        byte[] dataToWrite = ALawEncoder.ALawEncode(memStream.GetBuffer());
-                        udpClient.Send(dataToWrite, dataToWrite.Length, otherPartyIP.Address.ToString(), 1550);
-                    }
-                    else if (vocoder == Vocoder.uLaw)
-                    {
-                        byte[] dataToWrite = MuLawEncoder.MuLawEncode(memStream.GetBuffer());
-                        udpClient.Send(dataToWrite, dataToWrite.Length, otherPartyIP.Address.ToString(), 1550);
-                    }
-                    else
-                    {
-                        byte[] dataToWrite = memStream.GetBuffer();
-                        udpClient.Send(dataToWrite, dataToWrite.Length, otherPartyIP.Address.ToString(), 1550);
-                    }
+         
+                    byte[] dataToWrite = ALawEncoder.ALawEncode(memStream.GetBuffer());
+                    udpClient.Send(dataToWrite, dataToWrite.Length, otherPartyIP.Address.ToString(), 1550);
+                   
                 }
             }
             catch (Exception e)
@@ -344,21 +328,9 @@ namespace VOiP_Communicator.Classes
                     byte[] byteDecodedData = new byte[byteData.Length * 2];
 
                     //Decompress data using the proper vocoder.
-                    if (vocoder == Vocoder.ALaw)
-                    {
-                        ALawDecoder.ALawDecode(byteData, out byteDecodedData);
-                    }
-                    else if (vocoder == Vocoder.uLaw)
-                    {
-                        MuLawDecoder.MuLawDecode(byteData, out byteDecodedData);
-                    }
-                    else
-                    {
-                        byteDecodedData = new byte[byteData.Length];
-                        byteDecodedData = byteData;
-                    }
-
-                    Console.Write("aaaaaaa");
+                   
+                    ALawDecoder.ALawDecode(byteData, out byteDecodedData);
+                   
                     //Play the data received to the user.
                     playbackBuffer = new SecondaryBuffer(playbackBufferDescription, device);
                     playbackBuffer.Write(0, byteDecodedData, LockFlag.None);
@@ -457,7 +429,7 @@ namespace VOiP_Communicator.Classes
 
                 msgToSend.strName = "Test1";  //txtName.Text;   //Name of the user.
                 msgToSend.cmdCommand = cmd;         //Message to send.
-                msgToSend.vocoder = vocoder;        //Vocoder to be used.
+               
 
                 byte[] message = msgToSend.ToByte();
 

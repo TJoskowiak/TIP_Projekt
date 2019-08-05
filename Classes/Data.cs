@@ -13,7 +13,6 @@ namespace VOiP_Communicator.Classes
         {
             this.cmdCommand = Command.Null;
             this.strName = null;
-            vocoder = Vocoder.ALaw;
         }
 
         //Converts the bytes into an object of type Data.
@@ -55,6 +54,5 @@ namespace VOiP_Communicator.Classes
 
         public string strName;      //Name by which the client logs into the room.
         public Command cmdCommand;  //Command type (login, logout, send message, etc).
-        public Vocoder vocoder;
     }
 }

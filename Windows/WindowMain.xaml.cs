@@ -180,21 +180,20 @@ namespace VOiP_Communicator
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Manager = new CallManager(this);
-            Console.WriteLine("On Load");
+            
         }
 
         private void Button_Connect_Click(object sender, RoutedEventArgs e)
         {
             string ContactIP = getContactByUsername(TextName.Text.ToString()).Ip;
             Console.WriteLine(ContactIP);
-            Manager.Call(Vocoder.ALaw, ContactIP);
-            Console.WriteLine("On Call Send");
+            Manager.Call(ContactIP);
+           
         }
 
         private void Button_End_Click(object sender, RoutedEventArgs e)
         {
             Manager.DropCall();
-            Console.WriteLine("On Call Drop");
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)

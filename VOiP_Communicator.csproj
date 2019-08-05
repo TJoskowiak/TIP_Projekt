@@ -101,8 +101,6 @@
     <Compile Include="Classes\CallManager.cs" />
     <Compile Include="Classes\Contact.cs" />
     <Compile Include="Classes\Data.cs" />
-    <Compile Include="Classes\MuLawDecoder.cs" />
-    <Compile Include="Classes\MuLawEncoder.cs" />
     <Compile Include="Windows\CallHistoryWindow.xaml.cs">
       <DependentUpon>CallHistoryWindow.xaml</DependentUpon>
     </Compile>
