@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VOiP_Communicator.Classes;
 
 namespace VOiP_Communicator
 {

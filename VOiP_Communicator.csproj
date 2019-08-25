@@ -99,7 +99,9 @@
     </ApplicationDefinition>
     <Compile Include="Classes\ALawDecoder.cs" />
     <Compile Include="Classes\ALawEncoder.cs" />
+    <Compile Include="Classes\CallEntry.cs" />
     <Compile Include="Classes\CallManager.cs" />
+    <Compile Include="Classes\CallRepo.cs" />
     <Compile Include="Classes\Contact.cs" />
     <Compile Include="Classes\Data.cs" />
     <Compile Include="Classes\PhotoHandler.cs" />

@@ -37,7 +37,7 @@ namespace VOiP_Communicator.Classes
     #endregion
 
 
-    class CallManager
+    public class CallManager
     {
         private CaptureBufferDescription captureBufferDescription;
         private AutoResetEvent autoResetEvent;

@@ -22,7 +22,7 @@ namespace VOiP_Communicator
     /// </summary>
     public partial class WindowMain : Window
     {
-        private CallManager Manager;
+        public static CallManager Manager;
 
         private List<Contact> resultsList;
         public WindowMain()
@@ -218,6 +218,14 @@ namespace VOiP_Communicator
             OptionsWindow ow = new OptionsWindow();
             ow.Owner = this;
             ow.Show();
+        }
+
+        private void Button_History_Click(object sender, RoutedEventArgs e)
+        {
+            this.IsEnabled = false;
+            CallHistoryWindow chw = new CallHistoryWindow();
+            chw.Owner = this;
+            chw.Show();
         }
     }
 }

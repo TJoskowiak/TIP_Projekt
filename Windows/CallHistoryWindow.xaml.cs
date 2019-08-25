@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VOiP_Communicator.Classes;
 
 namespace VOiP_Communicator
 {
@@ -22,16 +23,41 @@ namespace VOiP_Communicator
         public CallHistoryWindow()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
 
         }
 
         private void ListView_CallHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void WindowCallHistory_Loaded(object sender, RoutedEventArgs e)
+        {
+            var resultsList = CallRepo.GetCallEntries(Globals.currentUserId);
+            Console.WriteLine(resultsList.Count);
+            foreach (var result in resultsList)
+            {
+                ListView_CallHistory.Items.Add(result);
+            }
+
+            
+        }
+
+        private void Button_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            this.Owner.IsEnabled = true;
+        }
+
+        private void Button_Call_Click(object sender, RoutedEventArgs e)
+        {
+            var entry = (CallEntry)ListView_CallHistory.SelectedItem;
+            var userRepo = new UserRepo();
+            WindowMain.Manager.Call(userRepo.getColumnByIds(entry.User_ID, "ip_address"));
+
+            this.Close();
+            this.Owner.IsEnabled = true;
+            
         }
     }
 }

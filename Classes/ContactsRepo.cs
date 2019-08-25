@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using VOiP_Communicator.Classes;
 
-namespace VOiP_Communicator
+namespace VOiP_Communicator.Classes
 {
     class ContactsRepo
     {

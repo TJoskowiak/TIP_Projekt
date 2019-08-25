@@ -5,15 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VOiP_Communicator"
         mc:Ignorable="d"
-        Title="Call History" Height="450" Width="646.218">
+        Title="Call History" Height="450" Width="646.218" Loaded="WindowCallHistory_Loaded">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="67*"/>
-            <ColumnDefinition Width="207*"/>
-            <ColumnDefinition Width="45*"/>
-        </Grid.ColumnDefinitions>
-        <ListView x:Name="ListView_CallHistory" HorizontalAlignment="Left" Height="341" Margin="10,10,0,0" VerticalAlignment="Top" Width="618" Grid.ColumnSpan="3" SelectionChanged="ListView_CallHistory_SelectionChanged"/>
-        <Button x:Name="Button_Call" Content="Call" HorizontalAlignment="Left" Height="35" Margin="10,374,0,0" VerticalAlignment="Top" Width="286" Click="Button_Click" Grid.ColumnSpan="2"/>
-        <Button x:Name="Button_Exit" Content="Exit" HorizontalAlignment="Left" Height="35" Margin="208,374,0,0" VerticalAlignment="Top" Width="286" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <ListView x:Name="ListView_CallHistory" HorizontalAlignment="Center" Height="341" Margin="10,10,0,0" VerticalAlignment="Top" Width="618">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Username" DisplayMemberBinding="{Binding Username}" Width="150" />
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Status}" Width="150" />
+                    <GridViewColumn Header="Start Date" DisplayMemberBinding="{Binding Start_Date}" Width="160" />
+                    <GridViewColumn Header="End Date" DisplayMemberBinding="{Binding End_Date}" Width="160" />
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="Button_Call" Content="Call" HorizontalAlignment="Left" Height="35" Margin="10,374,0,0" VerticalAlignment="Top" Width="286" Click="Button_Call_Click"/>
+        <Button x:Name="Button_Exit" Content="Exit" HorizontalAlignment="Left" Height="35" Margin="342,374,0,0" VerticalAlignment="Top" Width="286" Click="Button_Exit_Click"/>
     </Grid>
 </Window>

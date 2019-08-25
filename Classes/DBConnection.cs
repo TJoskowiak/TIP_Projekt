@@ -8,7 +8,7 @@ using System.Configuration;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
-namespace VOiP_Communicator
+namespace VOiP_Communicator.Classes
 {
     public class DBConnection
     {

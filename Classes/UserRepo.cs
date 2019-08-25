@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace VOiP_Communicator
+namespace VOiP_Communicator.Classes
 {
     class UserRepo
     {
@@ -32,6 +32,30 @@ namespace VOiP_Communicator
             con.Close();
 
             return result;
+        }
+
+        public string getColumnByIds(int userId, string column)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "Select * from users where user_id = @userId;";
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = new MySqlCommand(q, con.Connection);
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@userId", userId.ToString());
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                string result = null;
+                while (reader.Read())
+                {
+                    result = reader[column].ToString();
+                }
+                con.Close();
+
+                return result;
+            }
+            throw new Exception("PROBLEMS WITH DATABASE");
         }
 
         public List<string> getUsernamesByIds(List<string> ids)

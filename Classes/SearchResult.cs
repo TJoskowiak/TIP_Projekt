@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VOiP_Communicator
+namespace VOiP_Communicator.Classes
 {
     class SearchResult
     {
@@ -13,7 +13,7 @@ namespace VOiP_Communicator
         public string Email { get; set; }
 
         public string Ip { get; set; }
-        
+
         public string Last_Login_Date { get; set; }
     }
 }
