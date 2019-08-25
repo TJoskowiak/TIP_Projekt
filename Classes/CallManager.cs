@@ -59,7 +59,7 @@ namespace VOiP_Communicator.Classes
         private volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
         private bool IsCaller = false;
 
-
+        private WindowMain window;
         private DateTime CallDate;
         private int ReceiverID;
 
@@ -67,9 +67,10 @@ namespace VOiP_Communicator.Classes
         * Initializes all the data members.
         */
        public CallManager(System.Windows.Window window)
-       {
+       {            
             try
             {
+                this.window = (WindowMain)window;
                 device = new Device();
                 System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(window);
                 device.SetCooperativeLevel(helper.Handle, CooperativeLevel.Normal);
@@ -227,7 +228,7 @@ namespace VOiP_Communicator.Classes
                     case Command.Busy:
                         {
                             MessageBox.Show("User busy.", "VoiceChat", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
-                            CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString(), 5);
+                            CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString("yyyy-MM-dd hh:mm:ss"), 5);
                             IsCaller = false;
                             break;
                         }
@@ -390,7 +391,7 @@ namespace VOiP_Communicator.Classes
             
             if(IsCaller)
             {
-                CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString(), 1);
+                CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString("yyyy-MM-dd hh:mm:ss"), 1);
             }
 
             IsCaller = false;

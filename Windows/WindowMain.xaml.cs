@@ -24,6 +24,14 @@ namespace VOiP_Communicator
     {
         public static CallManager Manager;
 
+        public void ButtonSet(bool Connect, bool End, bool Mute)
+        {
+            Button_Connect.IsEnabled = Connect;
+            Button_End.IsEnabled = End;
+            Button_Mute.IsEnabled = Mute;
+        }
+
+
         private List<Contact> resultsList;
         public WindowMain()
         {
@@ -77,6 +85,12 @@ namespace VOiP_Communicator
                     }
                     else favourite.Content = "Mark as favourite";
                 }
+
+                ButtonSet(true, false, false);
+            }
+            else
+            {
+                ButtonSet(false, false, false);
             }
         }
 
@@ -187,7 +201,7 @@ namespace VOiP_Communicator
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Manager = new CallManager(this);
-            
+            ButtonSet(false, false, false);
         }
 
         private void Button_Connect_Click(object sender, RoutedEventArgs e)
@@ -197,15 +211,16 @@ namespace VOiP_Communicator
             int ContactID = getContactByUsername(text).SubjectId;
             Console.WriteLine(ContactIP);
             Manager.Call(ContactIP, ContactID);
-           
+
+            ButtonSet(false, true, true);
         }
 
         private void Button_End_Click(object sender, RoutedEventArgs e)
         {
             Manager.DropCall();
-           
-           
-          
+
+            ButtonSet(true, false, false);
+
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
@@ -217,6 +232,7 @@ namespace VOiP_Communicator
             contRepo.removeContact(selectedContact.SubjectId, Globals.currentUserId);
             MessageBox.Show("Change sucessfully saved");
             refreshListBox();
+            ButtonSet(false, false, false);
         }
 
         private void Button_Options_Click(object sender, RoutedEventArgs e)

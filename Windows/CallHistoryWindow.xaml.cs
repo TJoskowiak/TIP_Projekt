@@ -51,13 +51,13 @@ namespace VOiP_Communicator
 
         private void Button_Call_Click(object sender, RoutedEventArgs e)
         {
+            this.Close();
+            this.Owner.IsEnabled = true;
+
             var entry = (CallEntry)ListView_CallHistory.SelectedItem;
             var userRepo = new UserRepo();
             WindowMain.Manager.Call(userRepo.getColumnByIds(entry.User_ID, "ip_address"),entry.User_ID);
-
-            this.Close();
-            this.Owner.IsEnabled = true;
-            
+            ((WindowMain)this.Owner).ButtonSet(false, true, true);
         }
     }
 }
