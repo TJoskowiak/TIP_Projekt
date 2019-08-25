@@ -205,7 +205,7 @@ namespace VOiP_Communicator
             Manager.DropCall();
            
            
-            Manager = new CallManager(this);
+          
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)

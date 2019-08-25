@@ -303,7 +303,7 @@ namespace VOiP_Communicator.Classes
             finally
             {
                 captureBuffer.Stop();
-
+                captureBuffer.Dispose();
                 //Increment flag by one.
                 nUdpClientFlag += 1;
 
@@ -392,12 +392,8 @@ namespace VOiP_Communicator.Classes
             {
                 CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString(), 1);
             }
-            clientSocket.Dispose();
-            clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            EndPoint ourEP = new IPEndPoint(IPAddress.Any, 1450);
 
             IsCaller = false;
-            
         }
 
         public void DropCall()
