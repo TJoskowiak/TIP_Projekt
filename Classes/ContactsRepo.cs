@@ -123,7 +123,15 @@ namespace VOiP_Communicator
                 c.IsFavourite = Convert.ToBoolean(reader["is_favourite"].ToString());
                 c.Ip = reader["ip_address"].ToString();
                 c.Status = Int32.Parse(reader["status"].ToString());
-                c.Photo = null;
+
+                var photo = reader["profile_picture"];
+                if (photo != System.DBNull.Value)
+                {
+                    c.Photo = (byte[])photo;
+                } else
+                {
+                    c.Photo = null;
+                }
 
                 results.Add(c);
             }

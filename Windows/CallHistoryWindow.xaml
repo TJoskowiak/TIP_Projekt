@@ -9,10 +9,11 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="67*"/>
-            <ColumnDefinition Width="252*"/>
+            <ColumnDefinition Width="207*"/>
+            <ColumnDefinition Width="45*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="DataGrid_CallHistory" HorizontalAlignment="Left" Height="341" Margin="10,10,0,0" VerticalAlignment="Top" Width="618" Grid.ColumnSpan="2"/>
+        <ListView x:Name="ListView_CallHistory" HorizontalAlignment="Left" Height="341" Margin="10,10,0,0" VerticalAlignment="Top" Width="618" Grid.ColumnSpan="3" SelectionChanged="ListView_CallHistory_SelectionChanged"/>
         <Button x:Name="Button_Call" Content="Call" HorizontalAlignment="Left" Height="35" Margin="10,374,0,0" VerticalAlignment="Top" Width="286" Click="Button_Click" Grid.ColumnSpan="2"/>
-        <Button x:Name="Button_Exit" Content="Exit" HorizontalAlignment="Left" Height="35" Margin="208.353,374,0,0" VerticalAlignment="Top" Width="286" Grid.Column="1"/>
+        <Button x:Name="Button_Exit" Content="Exit" HorizontalAlignment="Left" Height="35" Margin="208,374,0,0" VerticalAlignment="Top" Width="286" Grid.Column="1" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

@@ -63,6 +63,10 @@ namespace VOiP_Communicator
 
             TextName.Text = text;
             Contact selectedItem = getContactByUsername(text);
+            if (selectedItem.Photo != null)
+            {
+                imageProfile.Source = PhotoHandler.ToImage(selectedItem.Photo);
+            }
             if (selectedItem != null)
             {
                 if (selectedItem.IsFavourite)

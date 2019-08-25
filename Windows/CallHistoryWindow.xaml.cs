@@ -28,5 +28,10 @@ namespace VOiP_Communicator
         {
 
         }
+
+        private void ListView_CallHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

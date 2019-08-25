@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VOiP_Communicator.Classes;
 
 namespace VOiP_Communicator.Windows
 {
@@ -26,6 +27,8 @@ namespace VOiP_Communicator.Windows
         public OptionsWindow()
         {
             InitializeComponent();
+            var userRepo = new UserRepo();
+            profile_image.Source = PhotoHandler.ToImage(userRepo.fetchPhotoByUsername(Globals.currentUserId));
         }
 
         private void Upload_Click(object sender, RoutedEventArgs e)
@@ -46,7 +49,8 @@ namespace VOiP_Communicator.Windows
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             byte[] ImageData = getJPGFromImageControl(ProfileImage.Source as BitmapImage);
-
+            var userRepo = new UserRepo();
+            userRepo.savePhotoForUser(ImageData);
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

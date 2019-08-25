@@ -149,5 +149,45 @@ namespace VOiP_Communicator
                 MessageBox.Show("Problems with database");
             }
         }
+
+        public void savePhotoForUser(byte[] imageData)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "update users set profile_picture = @imageData where user_id = @userId";
+
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = con.Connection.CreateCommand();
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@userId", Globals.currentUserId);
+                cmd.Parameters.AddWithValue("@imageData", imageData);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        public byte[] fetchPhotoByUsername(int userId)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "select profile_picture from users where user_id = @userId";
+            object imageData = null;
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = new MySqlCommand(q, con.Connection);
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@userId", userId.ToString());
+                
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    imageData = reader["profile_picture"];
+                }
+
+                con.Close();
+                return (byte[])imageData;
+            }
+
+            throw new Exception("DATABASE PROBLEMS");
+        }
     }
 }

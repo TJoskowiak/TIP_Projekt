@@ -102,6 +102,7 @@
     <Compile Include="Classes\CallManager.cs" />
     <Compile Include="Classes\Contact.cs" />
     <Compile Include="Classes\Data.cs" />
+    <Compile Include="Classes\PhotoHandler.cs" />
     <Compile Include="Windows\CallHistoryWindow.xaml.cs">
       <DependentUpon>CallHistoryWindow.xaml</DependentUpon>
     </Compile>
