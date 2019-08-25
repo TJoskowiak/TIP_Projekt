@@ -53,7 +53,7 @@ namespace VOiP_Communicator
         {
             var entry = (CallEntry)ListView_CallHistory.SelectedItem;
             var userRepo = new UserRepo();
-            WindowMain.Manager.Call(userRepo.getColumnByIds(entry.User_ID, "ip_address"));
+            WindowMain.Manager.Call(userRepo.getColumnByIds(entry.User_ID, "ip_address"),entry.User_ID);
 
             this.Close();
             this.Owner.IsEnabled = true;

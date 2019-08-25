@@ -54,26 +54,29 @@ namespace VOiP_Communicator
 
         private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
         {
-
+           
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string text = (string)listBox.SelectedItem;
+            if (listBox.SelectedItem != null)
+            {
+                string text = (string)listBox.SelectedItem;
 
-            TextName.Text = text;
-            Contact selectedItem = getContactByUsername(text);
-            if (selectedItem.Photo != null)
-            {
-                imageProfile.Source = PhotoHandler.ToImage(selectedItem.Photo);
-            }
-            if (selectedItem != null)
-            {
-                if (selectedItem.IsFavourite)
+                TextName.Text = text;
+                Contact selectedItem = getContactByUsername(text);
+                if (selectedItem.Photo != null)
                 {
-                    favourite.Content = "Remove from favourites";
+                    imageProfile.Source = PhotoHandler.ToImage(selectedItem.Photo);
                 }
-                else favourite.Content = "Mark as favourite";
+                if (selectedItem != null)
+                {
+                    if (selectedItem.IsFavourite)
+                    {
+                        favourite.Content = "Remove from favourites";
+                    }
+                    else favourite.Content = "Mark as favourite";
+                }
             }
         }
 
@@ -191,14 +194,18 @@ namespace VOiP_Communicator
         {
             string text = (string)listBox.SelectedItem;
             string ContactIP = getContactByUsername(text).Ip;
+            int ContactID = getContactByUsername(text).SubjectId;
             Console.WriteLine(ContactIP);
-            Manager.Call(ContactIP);
+            Manager.Call(ContactIP, ContactID);
            
         }
 
         private void Button_End_Click(object sender, RoutedEventArgs e)
         {
             Manager.DropCall();
+           
+           
+            Manager = new CallManager(this);
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)

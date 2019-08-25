@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace VOiP_Communicator.Classes
 {
@@ -50,5 +51,30 @@ namespace VOiP_Communicator.Classes
 
             throw new Exception("DATABASE PROBLEMS");
         }
+
+        public static void createCall(int callerId, int receiverId, string callDate, int status)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "insert into calls (caller_id, receiver_id, call_date, end_date, status) " +
+                "VALUES (@caller_id, @receiver_id, @call_date, now(), @status);";
+
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = con.Connection.CreateCommand();
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@caller_id", callerId);
+                cmd.Parameters.AddWithValue("@receiver_id", receiverId);
+                cmd.Parameters.AddWithValue("@call_date", callDate);
+                cmd.Parameters.AddWithValue("@status", status);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+
+            else
+            {
+                MessageBox.Show("Problems with database");
+            }
+        }
+
     }
 }

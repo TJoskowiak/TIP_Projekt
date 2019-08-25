@@ -45,9 +45,9 @@ namespace VOiP_Communicator.Classes
         private WaveFormat waveFormat;
         private Capture capture;
         private int bufferSize;
-        private CaptureBuffer captureBuffer;
         private UdpClient udpClient;                //Listens and sends data on port 1550, used in synchronous mode.
         private Device device;
+        private CaptureBuffer captureBuffer;
         private SecondaryBuffer playbackBuffer;
         private BufferDescription playbackBufferDescription;
         private Socket clientSocket;
@@ -57,6 +57,11 @@ namespace VOiP_Communicator.Classes
         private volatile bool bIsCallActive;                 //Tells whether we have an active call.
         private byte[] byteData = new byte[1024];   //Buffer to store the data received.
         private volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
+        private bool IsCaller = false;
+
+
+        private DateTime CallDate;
+        private int ReceiverID;
 
         /*
         * Initializes all the data members.
@@ -128,8 +133,12 @@ namespace VOiP_Communicator.Classes
         }
 
         // Starts a call
-        public void Call(string IP, int port = 1450)
+        public void Call(string IP, int receiverID, int port = 1450)
         {
+            CallDate = DateTime.Now;
+            IsCaller = true;
+            this.ReceiverID = receiverID;
+
             try
             {
                 //Get the IP we want to call.
@@ -218,6 +227,8 @@ namespace VOiP_Communicator.Classes
                     case Command.Busy:
                         {
                             MessageBox.Show("User busy.", "VoiceChat", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                            CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString(), 5);
+                            IsCaller = false;
                             break;
                         }
 
@@ -250,12 +261,12 @@ namespace VOiP_Communicator.Classes
        */
         private void Send()
         {
+            
             try
             {
-                //The following lines get audio from microphone and then send them 
-                //across network.
-
                 captureBuffer = new CaptureBuffer(captureBufferDescription, capture);
+                //The following lines get audio from microphone and then send them 
+                //across network
 
                 CreateNotifyPositions();
 
@@ -374,10 +385,19 @@ namespace VOiP_Communicator.Classes
         {
             //Set the flag to end the Send and Receive threads.
             bStop = true;
-
             bIsCallActive = false;
-            //btnCall.Enabled = true;
-            //btnEndCall.Enabled = false;
+            
+            
+            if(IsCaller)
+            {
+                CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString(), 1);
+            }
+            clientSocket.Dispose();
+            clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            EndPoint ourEP = new IPEndPoint(IPAddress.Any, 1450);
+
+            IsCaller = false;
+            
         }
 
         public void DropCall()
@@ -427,7 +447,7 @@ namespace VOiP_Communicator.Classes
                 //Create the message to send.
                 Data msgToSend = new Data();
 
-                msgToSend.strName = "Test1";  //txtName.Text;   //Name of the user.
+                msgToSend.strName = Globals.currentUserLogin;  //txtName.Text;   //Name of the user.
                 msgToSend.cmdCommand = cmd;         //Message to send.
                
 
