@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,7 +23,17 @@ namespace VOiP_Communicator
     /// </summary>
     public partial class WindowMain : Window
     {
+        public delegate void UpdateButtonCallback(bool ButtonState);
+
         public static CallManager Manager;
+        private List<Contact> resultsList;
+
+        public void ButtonSetAsync(bool Connect, bool End, bool Mute)
+        {
+            Dispatcher.BeginInvoke(new ThreadStart(() => Button_Connect.IsEnabled = Connect));
+            Dispatcher.BeginInvoke(new ThreadStart(() => Button_End.IsEnabled = End));
+            Dispatcher.BeginInvoke(new ThreadStart(() => Button_Mute.IsEnabled = Mute));
+        }
 
         public void ButtonSet(bool Connect, bool End, bool Mute)
         {
@@ -30,9 +41,7 @@ namespace VOiP_Communicator
             Button_End.IsEnabled = End;
             Button_Mute.IsEnabled = Mute;
         }
-
-
-        private List<Contact> resultsList;
+ 
         public WindowMain()
         {
             InitializeComponent();
@@ -211,16 +220,11 @@ namespace VOiP_Communicator
             int ContactID = getContactByUsername(text).SubjectId;
             Console.WriteLine(ContactIP);
             Manager.Call(ContactIP, ContactID);
-
-            ButtonSet(false, true, true);
         }
 
         private void Button_End_Click(object sender, RoutedEventArgs e)
         {
             Manager.DropCall();
-
-            ButtonSet(true, false, false);
-
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)

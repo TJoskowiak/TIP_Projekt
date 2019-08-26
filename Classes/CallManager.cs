@@ -230,6 +230,7 @@ namespace VOiP_Communicator.Classes
                             MessageBox.Show("User busy.", "VoiceChat", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
                             CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString("yyyy-MM-dd hh:mm:ss"), 5);
                             IsCaller = false;
+                            window.ButtonSetAsync(true, false, false);
                             break;
                         }
 
@@ -387,9 +388,9 @@ namespace VOiP_Communicator.Classes
             //Set the flag to end the Send and Receive threads.
             bStop = true;
             bIsCallActive = false;
-            
-            
-            if(IsCaller)
+
+            window.ButtonSetAsync(true, false, false);
+            if (IsCaller)
             {
                 CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString("yyyy-MM-dd hh:mm:ss"), 1);
             }
@@ -425,8 +426,10 @@ namespace VOiP_Communicator.Classes
                 //Start the receiver and sender thread.
                 receiverThread.Start();
                 senderThread.Start();
-                //btnCall.Enabled = false;
-                //btnEndCall.Enabled = true;
+
+                //Set button state on start of the call
+                window.ButtonSetAsync(false, true, true);
+                
             }
             catch (Exception e)
             {
