@@ -220,6 +220,7 @@ namespace VOiP_Communicator
             int ContactID = getContactByUsername(text).SubjectId;
             Console.WriteLine(ContactIP);
             Manager.Call(ContactIP, ContactID);
+            ButtonSet(false, true, true);
         }
 
         private void Button_End_Click(object sender, RoutedEventArgs e)

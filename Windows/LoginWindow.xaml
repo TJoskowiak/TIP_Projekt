@@ -12,11 +12,11 @@
             <RowDefinition Height="227*"/>
         </Grid.RowDefinitions>
         <TextBox x:Name="Login" HorizontalAlignment="Left" Height="28" Margin="131,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="371" Grid.Row="1"/>
+        <PasswordBox x:Name="Password" HorizontalAlignment="Left" Margin="131,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="371" Height="28"/>
         <Label x:Name="Label_Login" Content="Login" HorizontalAlignment="Left" Height="30" Margin="30,5,0,0" VerticalAlignment="Top" Width="79" Grid.Row="1" FontFamily="Sitka Banner" FontSize="16"/>
         <Label x:Name="Label_Password" Content="Password" HorizontalAlignment="Left" Height="28" Margin="30,55,0,0" VerticalAlignment="Top" Width="79" Grid.Row="1" FontSize="16" FontFamily="Sitka Banner"/>
         <Label x:Name="Label_Logo" Content="VOiP Communicator" HorizontalAlignment="Left" Height="51" Margin="82,52,0,0" VerticalAlignment="Top" Width="360" FontFamily="Sitka Text" FontSize="36" RenderTransformOrigin="0.505,0.509"/>
         <Button x:Name="Button_Login" Content="Login" HorizontalAlignment="Left" Height="32" Margin="43,118,0,0" Grid.Row="1" VerticalAlignment="Top" Width="135" Click="Button_Login_Click"/>
         <Button x:Name="Button_Register" Content="Register" HorizontalAlignment="Left" Height="32" Margin="344,118,0,0" Grid.Row="1" VerticalAlignment="Top" Width="135" Click="Button_Register_Click"/>
-        <PasswordBox x:Name="Password" HorizontalAlignment="Left" Margin="131,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="371" Height="28"/>
     </Grid>
 </Window>
