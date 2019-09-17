@@ -15,12 +15,27 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VOiP_Communicator.Classes;
+using System.Runtime.InteropServices;
+
 
 namespace VOiP_Communicator
 {
     public partial class LoginWindow : Window
     {
-        public LoginWindow() => InitializeComponent();
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+
+
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        public LoginWindow()
+        {
+            InitializeComponent();
+            IntPtr hWnd = FindWindow(null, Environment.SystemDirectory + "\\cmd.exe"); //put your console window caption here
+            ShowWindow(hWnd, 0); // 0 = SW_HIDE
+        }
 
         private void Button_Register_Click(object sender, RoutedEventArgs e)
         {

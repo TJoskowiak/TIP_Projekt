@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,9 +29,14 @@ namespace VOiP_Communicator.Windows
         {
             InitializeComponent();
             var userRepo = new UserRepo();
+            Application.Current.MainWindow.Closing += new CancelEventHandler(MainWindow_Closing);
+
             profile_image.Source = PhotoHandler.ToImage(userRepo.fetchPhotoByUsername(Globals.currentUserId));
         }
-
+        void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            this.Owner.IsEnabled = true;
+        }
         private void Upload_Click(object sender, RoutedEventArgs e)
         {
             ProfileImage = new Image();
@@ -48,9 +54,15 @@ namespace VOiP_Communicator.Windows
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            try { 
             byte[] ImageData = getJPGFromImageControl(ProfileImage.Source as BitmapImage);
             var userRepo = new UserRepo();
             userRepo.savePhotoForUser(ImageData);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No data loaded");
+            }
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

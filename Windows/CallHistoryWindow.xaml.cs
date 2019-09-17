@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,13 @@ namespace VOiP_Communicator
         public CallHistoryWindow()
         {
             InitializeComponent();
+            Application.Current.MainWindow.Closing += new CancelEventHandler(MainWindow_Closing);
 
+        }
+
+        void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            this.Owner.IsEnabled = true;
         }
 
         private void ListView_CallHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -51,13 +58,19 @@ namespace VOiP_Communicator
 
         private void Button_Call_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
-            this.Owner.IsEnabled = true;
-
             var entry = (CallEntry)ListView_CallHistory.SelectedItem;
-            var userRepo = new UserRepo();
-            WindowMain.Manager.Call(userRepo.getColumnByIds(entry.User_ID, "ip_address"),entry.User_ID);
-            ((WindowMain)this.Owner).ButtonSet(false, true, true);
+            if (entry == null)
+            {
+                MessageBox.Show("Please, select an item!");
+            }
+            else
+            {
+                this.Close();
+                this.Owner.IsEnabled = true;
+                var userRepo = new UserRepo();
+                WindowMain.Manager.Call(userRepo.getColumnByIds(entry.User_ID, "ip_address"), entry.User_ID);
+                ((WindowMain)this.Owner).ButtonSet(false, true, true);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,13 @@ namespace VOiP_Communicator
         public FindPersonWindow()
         {
             InitializeComponent();
-           
+            Application.Current.MainWindow.Closing += new CancelEventHandler(MainWindow_Closing);
+
+        }
+
+        void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            this.Owner.IsEnabled = true;
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e)

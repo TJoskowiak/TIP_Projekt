@@ -21,17 +21,26 @@ namespace VOiP_Communicator.Classes
         public string GetColumnValueByUsername(string username, string column)
         {
             DBConnection con = DBConnection.Instance();
-            string q = "Select * from users where username like '" + username + "';"; 
-            MySqlDataReader reader = con.query(q);
-            string result = null;
-            while (reader.Read())
+            string q = "Select * from users where username like @username;";
+            if (con.IsConnect())
             {
-                result = reader[column].ToString();
+                MySqlCommand cmd = new MySqlCommand(q, con.Connection);
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@username", username);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+                string result = null;
+                while (reader.Read())
+                {
+                    result = reader[column].ToString();
+                }
+
+                con.Close();
+
+                return result;
             }
+            throw new Exception("PROBLEMS WITH DATABASE");
 
-            con.Close();
-
-            return result;
         }
 
         public string getColumnByIds(int userId, string column)
@@ -86,35 +95,58 @@ namespace VOiP_Communicator.Classes
         public List<SearchResult> getSimiliarUsers(string username)
         {
             DBConnection con = DBConnection.Instance();
-            string q = "Select * from users where username like '%" + username + "%';";
-            MySqlDataReader reader = con.query(q);
-            var results = new List<SearchResult>();
-            while (reader.Read())
+            string q = "Select * from users where username like @username;";
+            if (con.IsConnect())
             {
-                results.Add(new SearchResult{Username = reader["username"].ToString(), Email = reader["email"].ToString(),
-                    Ip = reader["ip_address"].ToString(), Last_Login_Date = reader["last_login_date"].ToString() });
+                MySqlCommand cmd = new MySqlCommand(q, con.Connection);
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@username", "%" + username + "%");
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                var results = new List<SearchResult>();
+                while (reader.Read())
+                {
+                    results.Add(new SearchResult
+                    {
+                        Username = reader["username"].ToString(),
+                        Email = reader["email"].ToString(),
+                        Ip = reader["ip_address"].ToString(),
+                        Last_Login_Date = reader["last_login_date"].ToString()
+                    });
+                }
+
+                con.Close();
+
+                return results;
             }
 
-            con.Close();
-
-            return results;
+            throw new Exception("DATABASE PROBLEMS");
         }
 
         public Tuple<string, string> GetSaltAndPassowrdByUsername(string username)
         {
             DBConnection con = DBConnection.Instance();
-            string q = "Select * from users where username like '" + username + "';";
+            string q = "Select * from users where username like @username;";
 
-            MySqlDataReader reader = con.query(q);
-            Tuple<string, string> t = null;
-            while (reader.Read())
+            if (con.IsConnect())
             {
-                t = new Tuple<string, string>(reader["salt"].ToString(), reader["password"].ToString());
+                MySqlCommand cmd = new MySqlCommand(q, con.Connection);
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@username", username);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+                Tuple<string, string> t = null;
+                while (reader.Read())
+                {
+                    t = new Tuple<string, string>(reader["salt"].ToString(), reader["password"].ToString());
+                }
+
+                con.Close();
+
+                return t;
             }
 
-            con.Close();
-
-            return t;
+            throw new Exception("DATABASE PROBLEMS");
         }
 
         public void updateLogin(string username, string ipAddress)

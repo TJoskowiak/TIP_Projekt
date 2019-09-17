@@ -86,6 +86,10 @@ namespace VOiP_Communicator
                 {
                     imageProfile.Source = PhotoHandler.ToImage(selectedItem.Photo);
                 }
+                else
+                {
+                    imageProfile.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "/Img/user.png"));
+                }
                 if (selectedItem != null)
                 {
                     if (selectedItem.IsFavourite)
@@ -155,15 +159,21 @@ namespace VOiP_Communicator
         {
             var selectedItem = listBox.SelectedItem;
             string text = (string)listBox.SelectedItem;
-
-            ContactsRepo contRepo = ContactsRepo.Instance();
-            Contact selectedContact = getContactByUsername(text);
-            contRepo.toggleFavourite(selectedContact.SubjectId, Globals.currentUserId);
-            MessageBox.Show("Change sucessfully saved");
-            refreshListBox();
-            favourite.Content = "Mark as favourite";
-            TextName.Text = text;
-            listBox.SelectedItem = selectedItem;
+            if (text == null)
+            {
+                MessageBox.Show("No user selected");
+            }
+            else
+            {
+                ContactsRepo contRepo = ContactsRepo.Instance();
+                Contact selectedContact = getContactByUsername(text);
+                contRepo.toggleFavourite(selectedContact.SubjectId, Globals.currentUserId);
+                MessageBox.Show("Change sucessfully saved");
+                refreshListBox();
+                favourite.Content = "Mark as favourite";
+                TextName.Text = text;
+                listBox.SelectedItem = selectedItem;
+            }
         }
 
         private Contact getContactByUsername(string Username)
@@ -231,13 +241,22 @@ namespace VOiP_Communicator
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
             string text = (string)listBox.SelectedItem;
-
-            ContactsRepo contRepo = ContactsRepo.Instance();
-            Contact selectedContact = getContactByUsername(text);
-            contRepo.removeContact(selectedContact.SubjectId, Globals.currentUserId);
-            MessageBox.Show("Change sucessfully saved");
-            refreshListBox();
-            ButtonSet(false, false, false);
+            if (text == null)
+            {
+                MessageBox.Show("No user selected");
+            }
+            else
+            {
+                TextName.Text = "";
+                imageProfile.Source = null;
+                favourite.Content = "Mark as favourite";
+                ContactsRepo contRepo = ContactsRepo.Instance();
+                Contact selectedContact = getContactByUsername(text);
+                contRepo.removeContact(selectedContact.SubjectId, Globals.currentUserId);
+                MessageBox.Show("Change sucessfully saved");
+                refreshListBox();
+                ButtonSet(false, false, false);
+            }
         }
 
         private void Button_Options_Click(object sender, RoutedEventArgs e)
