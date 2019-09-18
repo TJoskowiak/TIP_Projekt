@@ -63,6 +63,12 @@ namespace VOiP_Communicator.Classes
         private DateTime CallDate;
         private int ReceiverID;
 
+        private byte[] MyCurrentPass;
+        private byte[] MyCurrentSalt;
+
+        private byte[] CallCurrentPass;
+        private byte[] CallCurrentSalt;
+
         /*
         * Initializes all the data members.
         */
@@ -125,6 +131,11 @@ namespace VOiP_Communicator.Classes
                                            ref remoteEP,
                                            new AsyncCallback(OnReceive),
                                            null);
+
+                //Create first cryptographic passes
+                this.MyCurrentPass = AES_Crypto.CreatePass();
+                this.MyCurrentSalt = AES_Crypto.CreateSalt();
+                
             }
             catch (Exception e)
             {
@@ -139,6 +150,10 @@ namespace VOiP_Communicator.Classes
             CallDate = DateTime.Now;
             IsCaller = true;
             this.ReceiverID = receiverID;
+
+            //Set Call's Crypto
+            MyCurrentPass = CallCurrentPass;
+            MyCurrentSalt = CallCurrentSalt;
 
             try
             {
@@ -197,6 +212,11 @@ namespace VOiP_Communicator.Classes
                                 if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
                                     "VoiceChat", MessageBoxButton.YesNo, MessageBoxImage.Question,MessageBoxResult.Yes) == MessageBoxResult.Yes)
                                 {
+                                    //Get someones crypto information
+                                    var cryptoTuple = UserRepo.fetchUsersCrypto(msgReceived.strName);
+                                    CallCurrentPass = cryptoTuple.Item1;
+                                    CallCurrentSalt = cryptoTuple.Item2;
+
                                     SendMessage(Command.OK, receivedFromEP);
                                     otherPartyEP = receivedFromEP;
                                     otherPartyIP = (IPEndPoint)receivedFromEP;
@@ -231,6 +251,14 @@ namespace VOiP_Communicator.Classes
                             CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString("yyyy-MM-dd hh:mm:ss"), 5);
                             IsCaller = false;
                             window.ButtonSetAsync(true, false, false);
+
+                            //Reinitialize crypto properties after the call
+                            MyCurrentPass = AES_Crypto.CreatePass();
+                            MyCurrentSalt = AES_Crypto.CreateSalt();
+                            CallCurrentPass = null;
+                            CallCurrentSalt = null;
+                            UserRepo.updateCrypto(MyCurrentPass, MyCurrentSalt);
+
                             break;
                         }
 
@@ -291,9 +319,11 @@ namespace VOiP_Communicator.Classes
 
                     //TODO: Fix this ugly way of initializing differently.
 
-                    //Choose the vocoder. And then send the data to other party at port 1550.
-         
-                    byte[] dataToWrite = ALawEncoder.ALawEncode(memStream.GetBuffer());
+                    //Encode and encrypt data.
+
+                    byte[] dataEncoded = ALawEncoder.ALawEncode(memStream.GetBuffer());
+
+                    byte[] dataToWrite = AES_Crypto.Encrypt(dataEncoded, CallCurrentPass, CallCurrentSalt);
                     udpClient.Send(dataToWrite, dataToWrite.Length, otherPartyIP.Address.ToString(), 1550);
                    
                 }
@@ -340,9 +370,9 @@ namespace VOiP_Communicator.Classes
                     //the size to store the decompressed data.
                     byte[] byteDecodedData = new byte[byteData.Length * 2];
 
-                    //Decompress data using the proper vocoder.
-                   
-                    ALawDecoder.ALawDecode(byteData, out byteDecodedData);
+                    //Decompress data using the proper vocoder. And decrypt
+                    var decryptedData = AES_Crypto.Decrypt(byteData, CallCurrentPass, CallCurrentSalt);
+                    ALawDecoder.ALawDecode(decryptedData, out byteDecodedData);
                    
                     //Play the data received to the user.
                     playbackBuffer = new SecondaryBuffer(playbackBufferDescription, device);
@@ -394,6 +424,13 @@ namespace VOiP_Communicator.Classes
             {
                 CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString("yyyy-MM-dd hh:mm:ss"), 1);
             }
+
+            //Reinitialize crypto properties after the call
+            MyCurrentPass = AES_Crypto.CreatePass();
+            MyCurrentSalt = AES_Crypto.CreateSalt();
+            CallCurrentPass = null;
+            CallCurrentSalt = null;
+            UserRepo.updateCrypto(MyCurrentPass, MyCurrentSalt);
 
             IsCaller = false;
         }

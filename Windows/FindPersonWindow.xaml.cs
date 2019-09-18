@@ -49,8 +49,7 @@ namespace VOiP_Communicator
             else
             {
                 listView.Items.Clear();
-                UserRepo userRepo = UserRepo.Instance();
-                var resultsList = userRepo.getSimiliarUsers(username);
+                var resultsList = UserRepo.getSimiliarUsers(username);
                 foreach (var result in resultsList)
                 {
                     listView.Items.Add(result);
@@ -65,10 +64,9 @@ namespace VOiP_Communicator
             if (x != null)
             {
                 ContactsRepo contactRepo = ContactsRepo.Instance();
-                UserRepo userRepo = UserRepo.Instance();
 
-                int subject_id = Int32.Parse(userRepo.GetColumnValueByUsername(x.Username, "user_id"));
-                int owner_id = Int32.Parse(userRepo.GetColumnValueByUsername(Globals.currentUserLogin, "user_id"));
+                int subject_id = Int32.Parse(UserRepo.GetColumnValueByUsername(x.Username, "user_id"));
+                int owner_id = Int32.Parse(UserRepo.GetColumnValueByUsername(Globals.currentUserLogin, "user_id"));
                 DateTime created_date = DateTime.Now;
                 int is_favourite = 0;
 

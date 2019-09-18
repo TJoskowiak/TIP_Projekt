@@ -67,8 +67,7 @@ namespace VOiP_Communicator
             {
                 this.Close();
                 this.Owner.IsEnabled = true;
-                var userRepo = new UserRepo();
-                WindowMain.Manager.Call(userRepo.getColumnByIds(entry.User_ID, "ip_address"), entry.User_ID);
+                WindowMain.Manager.Call(UserRepo.getColumnByIds(entry.User_ID, "ip_address"), entry.User_ID);
                 ((WindowMain)this.Owner).ButtonSet(false, true, true);
             }
         }

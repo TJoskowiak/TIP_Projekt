@@ -28,10 +28,9 @@ namespace VOiP_Communicator.Windows
         public OptionsWindow()
         {
             InitializeComponent();
-            var userRepo = new UserRepo();
             Application.Current.MainWindow.Closing += new CancelEventHandler(MainWindow_Closing);
 
-            profile_image.Source = PhotoHandler.ToImage(userRepo.fetchPhotoByUsername(Globals.currentUserId));
+            profile_image.Source = PhotoHandler.ToImage(UserRepo.fetchPhotoByUsername(Globals.currentUserId));
         }
         void MainWindow_Closing(object sender, CancelEventArgs e)
         {
@@ -56,8 +55,7 @@ namespace VOiP_Communicator.Windows
         {
             try { 
             byte[] ImageData = getJPGFromImageControl(ProfileImage.Source as BitmapImage);
-            var userRepo = new UserRepo();
-            userRepo.savePhotoForUser(ImageData);
+            UserRepo.savePhotoForUser(ImageData);
             }
             catch (Exception)
             {

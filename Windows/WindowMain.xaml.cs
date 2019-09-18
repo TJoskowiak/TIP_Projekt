@@ -117,8 +117,7 @@ namespace VOiP_Communicator
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            UserRepo userRepo = UserRepo.Instance();
-            userRepo.setUserOffline(Globals.currentUserLogin);
+            UserRepo.setUserOffline(Globals.currentUserLogin);
         }
 
         private void loadAllContacts()
