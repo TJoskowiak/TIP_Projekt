@@ -66,12 +66,26 @@ namespace VOiP_Communicator.Classes
 
         static public byte[] CreatePass()
         {
-            throw new NotImplementedException("Create pass not implemented");
+            return getRandomByteArray(128); 
         }
 
         static public byte[] CreateSalt()
         {
-            throw new NotImplementedException("Create pass not implemented");
+            return getRandomByteArray(16);
+        }
+
+        static private byte[] getRandomByteArray(int size)
+        {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var stringChars = new char[size];
+            var random = new Random();
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            return Encoding.ASCII.GetBytes(stringChars);
         }
     }
 }
