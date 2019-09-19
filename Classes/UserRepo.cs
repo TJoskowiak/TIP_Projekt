@@ -240,12 +240,46 @@ namespace VOiP_Communicator.Classes
 
         static public void updateCrypto(byte[] passData, byte[] saltData)
         {
-            throw new NotImplementedException("Database Crypto update not implemented");
+            DBConnection con = DBConnection.Instance();
+            string q = "update users set crypto_pass = @crypto_pass, crypto_salt = @crypto_salt where user_id = @userId";
+
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = con.Connection.CreateCommand();
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@userId", Globals.currentUserId);
+                cmd.Parameters.AddWithValue("@crypto_pass", passData);
+                cmd.Parameters.AddWithValue("@crypto_salt", saltData);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
         }
 
         static public Tuple<byte[], byte[]> fetchUsersCrypto(string username)
         {
-            throw new NotImplementedException("FEtch from Database not implemented");
+            DBConnection con = DBConnection.Instance();
+            string q = "Select * from users where username like @username;";
+
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = new MySqlCommand(q, con.Connection);
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@username", username);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+                Tuple<byte[], byte[]> t = null;
+                while (reader.Read())
+                {
+                    t = new Tuple<byte[], byte[]>(Encoding.ASCII.GetBytes(reader["crypto_pass"].ToString()),
+                        Encoding.ASCII.GetBytes(reader["crypto_salt"].ToString()));
+                }
+
+                con.Close();
+
+                return t;
+            }
+
+            throw new Exception("DATABASE PROBLEMS");
         }
     }
 }

@@ -135,6 +135,7 @@ namespace VOiP_Communicator.Classes
                 //Create first cryptographic passes
                 this.MyCurrentPass = AES_Crypto.CreatePass();
                 this.MyCurrentSalt = AES_Crypto.CreateSalt();
+                UserRepo.updateCrypto(MyCurrentPass, MyCurrentSalt);
                 
             }
             catch (Exception e)
@@ -317,13 +318,11 @@ namespace VOiP_Communicator.Classes
                     readFirstBufferPart = !readFirstBufferPart;
                     offset = readFirstBufferPart ? 0 : halfBuffer;
 
-                    //TODO: Fix this ugly way of initializing differently.
-
                     //Encode and encrypt data.
 
                     byte[] dataEncoded = ALawEncoder.ALawEncode(memStream.GetBuffer());
-
                     byte[] dataToWrite = AES_Crypto.Encrypt(dataEncoded, CallCurrentPass, CallCurrentSalt);
+
                     udpClient.Send(dataToWrite, dataToWrite.Length, otherPartyIP.Address.ToString(), 1550);
                    
                 }
