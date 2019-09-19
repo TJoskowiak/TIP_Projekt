@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.IO;
+using System.Windows;
 
 namespace VOiP_Communicator.Classes
 {
@@ -12,10 +13,14 @@ namespace VOiP_Communicator.Classes
     {
         static public byte[] Encrypt(byte[] clearBytes, byte[] passBytes, byte[] saltBytes)
         {
+            if (clearBytes == null)
+            {
+                return clearBytes;
+            }
             byte[] encryptedBytes = null;
 
             // create a key from the password and salt, use 32K iterations – see note
-            var key = new Rfc2898DeriveBytes(passBytes, saltBytes, 32768);
+            var key = new Rfc2898DeriveBytes(passBytes, saltBytes, 100);
 
             // create an AES object
             using (Aes aes = new AesManaged())
@@ -39,10 +44,14 @@ namespace VOiP_Communicator.Classes
 
         static public byte[] Decrypt(byte[] cryptBytes, byte[] passBytes, byte[] saltBytes)
         {
+            if (cryptBytes == null)
+            {
+                return cryptBytes;
+            }
             byte[] clearBytes = null;
 
             // create a key from the password and salt, use 32K iterations
-            var key = new Rfc2898DeriveBytes(passBytes, saltBytes, 32768);
+            var key = new Rfc2898DeriveBytes(passBytes, saltBytes, 100);
 
             using (Aes aes = new AesManaged())
             {

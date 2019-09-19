@@ -153,8 +153,8 @@ namespace VOiP_Communicator.Classes
             this.ReceiverID = receiverID;
 
             //Set Call's Crypto
-            MyCurrentPass = CallCurrentPass;
-            MyCurrentSalt = CallCurrentSalt;
+            CallCurrentPass = MyCurrentPass;
+            CallCurrentSalt = MyCurrentSalt;
 
             try
             {
@@ -321,6 +321,7 @@ namespace VOiP_Communicator.Classes
                     //Encode and encrypt data.
 
                     byte[] dataEncoded = ALawEncoder.ALawEncode(memStream.GetBuffer());
+
                     byte[] dataToWrite = AES_Crypto.Encrypt(dataEncoded, CallCurrentPass, CallCurrentSalt);
 
                     udpClient.Send(dataToWrite, dataToWrite.Length, otherPartyIP.Address.ToString(), 1550);
