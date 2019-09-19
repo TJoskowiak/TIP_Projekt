@@ -242,6 +242,7 @@ namespace VOiP_Communicator.Classes
                         {
                             //Start a call.
                             InitializeCall();
+                            MessageBox.Show("Person has answered. Call started.", "Call handler", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
                             break;
                         }
 
@@ -273,6 +274,7 @@ namespace VOiP_Communicator.Classes
                                 //End the call.
                                 UninitializeCall();
                             }
+                            MessageBox.Show("Person has disconnected", "Call handler", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
                             break;
                         }
                 }
@@ -424,7 +426,8 @@ namespace VOiP_Communicator.Classes
             {
                 CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString("yyyy-MM-dd hh:mm:ss"), 1);
             }
-
+            IsCaller = false;
+            Thread.Sleep(500);
             //Reinitialize crypto properties after the call
             MyCurrentPass = AES_Crypto.CreatePass();
             MyCurrentSalt = AES_Crypto.CreateSalt();
@@ -432,7 +435,7 @@ namespace VOiP_Communicator.Classes
             CallCurrentSalt = null;
             UserRepo.updateCrypto(MyCurrentPass, MyCurrentSalt);
 
-            IsCaller = false;
+           
         }
 
         public void DropCall()
