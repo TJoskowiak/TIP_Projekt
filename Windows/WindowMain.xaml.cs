@@ -88,7 +88,7 @@ namespace VOiP_Communicator
                 }
                 else
                 {
-                    imageProfile.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "/Img/user.png"));
+                    imageProfile.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"../../Img/user.png"));
                 }
                 if (selectedItem != null)
                 {
