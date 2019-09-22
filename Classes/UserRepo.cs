@@ -232,7 +232,12 @@ namespace VOiP_Communicator.Classes
                 }
 
                 con.Close();
-                return (byte[])imageData;
+                if (!Convert.IsDBNull(imageData))
+                {
+                    return (byte[])imageData;
+                }
+
+                return null;
             }
 
             throw new Exception("DATABASE PROBLEMS");

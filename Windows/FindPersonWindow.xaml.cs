@@ -30,12 +30,14 @@ namespace VOiP_Communicator
 
         void MainWindow_Closing(object sender, CancelEventArgs e)
         {
+            this.Owner.Activate();
             this.Owner.IsEnabled = true;
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            this.Owner.Activate();
             this.Owner.IsEnabled = true;
         }
 

@@ -29,11 +29,19 @@ namespace VOiP_Communicator.Windows
         {
             InitializeComponent();
             Application.Current.MainWindow.Closing += new CancelEventHandler(MainWindow_Closing);
-
-            profile_image.Source = PhotoHandler.ToImage(UserRepo.fetchPhotoByUsername(Globals.currentUserId));
+            var image = UserRepo.fetchPhotoByUsername(Globals.currentUserId);
+            if (image != null)
+            {
+                profile_image.Source = PhotoHandler.ToImage(UserRepo.fetchPhotoByUsername(Globals.currentUserId));
+            }
+            else
+            {
+                profile_image.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"../../Img/user.png"));
+            }
         }
         void MainWindow_Closing(object sender, CancelEventArgs e)
         {
+            this.Owner.Activate();
             this.Owner.IsEnabled = true;
         }
         private void Upload_Click(object sender, RoutedEventArgs e)
@@ -66,6 +74,7 @@ namespace VOiP_Communicator.Windows
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            this.Owner.Activate();
             this.Owner.IsEnabled = true;
         }
 
