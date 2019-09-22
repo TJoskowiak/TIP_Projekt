@@ -55,12 +55,9 @@ namespace VOiP_Communicator
                 }
 
                 string salt = new string(stringChars);
-
-                UserRepo userRepo = UserRepo.Instance();
-
                 string passwordHash = SHA512(password + salt);
 
-                userRepo.createUser(username, email, passwordHash, salt, GetLocalIPAddress(), 0);
+                UserRepo.createUser(username, email, passwordHash, salt, GetLocalIPAddress(), 0);
                 this.Close();
                 MessageBox.Show("You have succesfully registered, now you can login");
                 this.Owner.IsEnabled = true;
@@ -76,9 +73,7 @@ namespace VOiP_Communicator
                 return false;
             }
 
-             UserRepo userRepo = UserRepo.Instance();
-
-            if (!String.IsNullOrEmpty(userRepo.GetColumnValueByUsername(username, "username")))
+            if (!String.IsNullOrEmpty(UserRepo.GetColumnValueByUsername(username, "username")))
             {
                 MessageBox.Show("Username is taken");
                 return false;

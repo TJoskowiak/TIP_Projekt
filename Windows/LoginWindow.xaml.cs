@@ -49,9 +49,8 @@ namespace VOiP_Communicator
         {
             if(validate(Login.Text, Password.Password))
             {
-                UserRepo userRepo = UserRepo.Instance();
-
-                userRepo.updateLogin(Login.Text, GetLocalIPAddress());
+              
+                UserRepo.updateLogin(Login.Text, GetLocalIPAddress());
                 WindowMain wm = new WindowMain();
                 wm.Show();
                 this.Close();
@@ -67,15 +66,13 @@ namespace VOiP_Communicator
                 return false;
             }
 
-            UserRepo userRepo = UserRepo.Instance();
-
-            if (String.IsNullOrEmpty(userRepo.GetColumnValueByUsername(login, "username")))
+            if (String.IsNullOrEmpty(UserRepo.GetColumnValueByUsername(login, "username")))
             {
                 MessageBox.Show("No such user in database");
                 return false;
             }
 
-            Tuple<string, string> hashAndPassword = userRepo.GetSaltAndPassowrdByUsername(login);
+            Tuple<string, string> hashAndPassword = UserRepo.GetSaltAndPassowrdByUsername(login);
 
             if(!String.Equals(SHA512(password+hashAndPassword.Item1), hashAndPassword.Item2))
             {
@@ -83,8 +80,8 @@ namespace VOiP_Communicator
                 return false;
             }
 
-            Globals.currentUserLogin = userRepo.GetColumnValueByUsername(login, "username");
-            Globals.currentUserId = System.Convert.ToInt32(userRepo.GetColumnValueByUsername(login, "user_id"));
+            Globals.currentUserLogin = UserRepo.GetColumnValueByUsername(login, "username");
+            Globals.currentUserId = System.Convert.ToInt32(UserRepo.GetColumnValueByUsername(login, "user_id"));
 
             return true;
         }

@@ -63,6 +63,12 @@ namespace VOiP_Communicator.Classes
         private DateTime CallDate;
         private int ReceiverID;
 
+        private byte[] MyCurrentPass;
+        private byte[] MyCurrentSalt;
+
+        private byte[] CallCurrentPass;
+        private byte[] CallCurrentSalt;
+
         /*
         * Initializes all the data members.
         */
@@ -125,6 +131,12 @@ namespace VOiP_Communicator.Classes
                                            ref remoteEP,
                                            new AsyncCallback(OnReceive),
                                            null);
+
+                //Create first cryptographic passes
+                this.MyCurrentPass = AES_Crypto.CreatePass();
+                this.MyCurrentSalt = AES_Crypto.CreateSalt();
+                UserRepo.updateCrypto(MyCurrentPass, MyCurrentSalt);
+                
             }
             catch (Exception e)
             {
@@ -139,6 +151,10 @@ namespace VOiP_Communicator.Classes
             CallDate = DateTime.Now;
             IsCaller = true;
             this.ReceiverID = receiverID;
+
+            //Set Call's Crypto
+            CallCurrentPass = MyCurrentPass;
+            CallCurrentSalt = MyCurrentSalt;
 
             try
             {
@@ -197,6 +213,11 @@ namespace VOiP_Communicator.Classes
                                 if (MessageBox.Show("Call coming from " + msgReceived.strName + ".\r\n\r\nAccept it?",
                                     "VoiceChat", MessageBoxButton.YesNo, MessageBoxImage.Question,MessageBoxResult.Yes) == MessageBoxResult.Yes)
                                 {
+                                    //Get someones crypto information
+                                    var cryptoTuple = UserRepo.fetchUsersCrypto(msgReceived.strName);
+                                    CallCurrentPass = cryptoTuple.Item1;
+                                    CallCurrentSalt = cryptoTuple.Item2;
+
                                     SendMessage(Command.OK, receivedFromEP);
                                     otherPartyEP = receivedFromEP;
                                     otherPartyIP = (IPEndPoint)receivedFromEP;
@@ -221,6 +242,7 @@ namespace VOiP_Communicator.Classes
                         {
                             //Start a call.
                             InitializeCall();
+                            MessageBox.Show("Person has answered. Call started.", "Call handler", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
                             break;
                         }
 
@@ -231,6 +253,14 @@ namespace VOiP_Communicator.Classes
                             CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString("yyyy-MM-dd hh:mm:ss"), 5);
                             IsCaller = false;
                             window.ButtonSetAsync(true, false, false);
+
+                            //Reinitialize crypto properties after the call
+                            MyCurrentPass = AES_Crypto.CreatePass();
+                            MyCurrentSalt = AES_Crypto.CreateSalt();
+                            CallCurrentPass = null;
+                            CallCurrentSalt = null;
+                            UserRepo.updateCrypto(MyCurrentPass, MyCurrentSalt);
+
                             break;
                         }
 
@@ -244,6 +274,7 @@ namespace VOiP_Communicator.Classes
                                 //End the call.
                                 UninitializeCall();
                             }
+                            MessageBox.Show("Person has disconnected", "Call handler", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
                             break;
                         }
                 }
@@ -289,11 +320,12 @@ namespace VOiP_Communicator.Classes
                     readFirstBufferPart = !readFirstBufferPart;
                     offset = readFirstBufferPart ? 0 : halfBuffer;
 
-                    //TODO: Fix this ugly way of initializing differently.
+                    //Encode and encrypt data.
 
-                    //Choose the vocoder. And then send the data to other party at port 1550.
-         
-                    byte[] dataToWrite = ALawEncoder.ALawEncode(memStream.GetBuffer());
+                    byte[] dataEncoded = ALawEncoder.ALawEncode(memStream.GetBuffer());
+
+                    byte[] dataToWrite = AES_Crypto.Encrypt(dataEncoded, CallCurrentPass, CallCurrentSalt);
+
                     udpClient.Send(dataToWrite, dataToWrite.Length, otherPartyIP.Address.ToString(), 1550);
                    
                 }
@@ -340,9 +372,9 @@ namespace VOiP_Communicator.Classes
                     //the size to store the decompressed data.
                     byte[] byteDecodedData = new byte[byteData.Length * 2];
 
-                    //Decompress data using the proper vocoder.
-                   
-                    ALawDecoder.ALawDecode(byteData, out byteDecodedData);
+                    //Decompress data using the proper vocoder. And decrypt
+                    var decryptedData = AES_Crypto.Decrypt(byteData, CallCurrentPass, CallCurrentSalt);
+                    ALawDecoder.ALawDecode(decryptedData, out byteDecodedData);
                    
                     //Play the data received to the user.
                     playbackBuffer = new SecondaryBuffer(playbackBufferDescription, device);
@@ -394,8 +426,16 @@ namespace VOiP_Communicator.Classes
             {
                 CallRepo.createCall(Globals.currentUserId, ReceiverID, CallDate.ToString("yyyy-MM-dd hh:mm:ss"), 1);
             }
-
             IsCaller = false;
+            Thread.Sleep(500);
+            //Reinitialize crypto properties after the call
+            MyCurrentPass = AES_Crypto.CreatePass();
+            MyCurrentSalt = AES_Crypto.CreateSalt();
+            CallCurrentPass = null;
+            CallCurrentSalt = null;
+            UserRepo.updateCrypto(MyCurrentPass, MyCurrentSalt);
+
+           
         }
 
         public void DropCall()

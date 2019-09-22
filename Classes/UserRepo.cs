@@ -8,17 +8,9 @@ using System.Windows;
 
 namespace VOiP_Communicator.Classes
 {
-    class UserRepo
+    static class UserRepo
     {
-        private static UserRepo _instance = null;
-        public static UserRepo Instance()
-        {
-            if (_instance == null)
-                _instance = new UserRepo();
-            return _instance;
-        }
-
-        public string GetColumnValueByUsername(string username, string column)
+        static public string GetColumnValueByUsername(string username, string column)
         {
             DBConnection con = DBConnection.Instance();
             string q = "Select * from users where username like @username;";
@@ -43,7 +35,7 @@ namespace VOiP_Communicator.Classes
 
         }
 
-        public string getColumnByIds(int userId, string column)
+        static public string getColumnByIds(int userId, string column)
         {
             DBConnection con = DBConnection.Instance();
             string q = "Select * from users where user_id = @userId;";
@@ -67,7 +59,7 @@ namespace VOiP_Communicator.Classes
             throw new Exception("PROBLEMS WITH DATABASE");
         }
 
-        public List<string> getUsernamesByIds(List<string> ids)
+        static public List<string> getUsernamesByIds(List<string> ids)
         {
             DBConnection con = DBConnection.Instance();
             string q = "Select username from users where  FIND_IN_SET(user_id, @ids) != 0;";
@@ -92,7 +84,7 @@ namespace VOiP_Communicator.Classes
             return result;
         }
 
-        public List<SearchResult> getSimiliarUsers(string username)
+        static public List<SearchResult> getSimiliarUsers(string username)
         {
             DBConnection con = DBConnection.Instance();
             string q = "Select * from users where username like @username;";
@@ -123,7 +115,7 @@ namespace VOiP_Communicator.Classes
             throw new Exception("DATABASE PROBLEMS");
         }
 
-        public Tuple<string, string> GetSaltAndPassowrdByUsername(string username)
+        static public Tuple<string, string> GetSaltAndPassowrdByUsername(string username)
         {
             DBConnection con = DBConnection.Instance();
             string q = "Select * from users where username like @username;";
@@ -149,7 +141,7 @@ namespace VOiP_Communicator.Classes
             throw new Exception("DATABASE PROBLEMS");
         }
 
-        public void updateLogin(string username, string ipAddress)
+        static public void updateLogin(string username, string ipAddress)
         {
             DBConnection con = DBConnection.Instance();
             string q = "UPDATE users set ip_address = @ipAddress, last_login_date = now(), status = status | 1 where username like @username";
@@ -165,7 +157,7 @@ namespace VOiP_Communicator.Classes
             }
         }
 
-        public void setUserOffline(string username)
+        static public void setUserOffline(string username)
         {
             DBConnection con = DBConnection.Instance();
             string q = "UPDATE users set status = status & ~1 where username like @username";
@@ -180,7 +172,7 @@ namespace VOiP_Communicator.Classes
             }
         }
 
-        public void createUser(string username, string email, string password, string salt, string ipAddress, int status)
+        static public void createUser(string username, string email, string password, string salt, string ipAddress, int status)
         {
             DBConnection con = DBConnection.Instance();
             string q = "insert into  users (username, email, password, salt, ip_address, status, last_login_date, created_date) " +
@@ -206,7 +198,7 @@ namespace VOiP_Communicator.Classes
             }
         }
 
-        public void savePhotoForUser(byte[] imageData)
+        static public void savePhotoForUser(byte[] imageData)
         {
             DBConnection con = DBConnection.Instance();
             string q = "update users set profile_picture = @imageData where user_id = @userId";
@@ -222,7 +214,7 @@ namespace VOiP_Communicator.Classes
             }
         }
 
-        public byte[] fetchPhotoByUsername(int userId)
+        static public byte[] fetchPhotoByUsername(int userId)
         {
             DBConnection con = DBConnection.Instance();
             string q = "select profile_picture from users where user_id = @userId";
@@ -240,7 +232,56 @@ namespace VOiP_Communicator.Classes
                 }
 
                 con.Close();
-                return (byte[])imageData;
+                if (!Convert.IsDBNull(imageData))
+                {
+                    return (byte[])imageData;
+                }
+
+                return null;
+            }
+
+            throw new Exception("DATABASE PROBLEMS");
+        }
+
+        static public void updateCrypto(byte[] passData, byte[] saltData)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "update users set crypto_pass = @crypto_pass, crypto_salt = @crypto_salt where user_id = @userId";
+
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = con.Connection.CreateCommand();
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@userId", Globals.currentUserId);
+                cmd.Parameters.AddWithValue("@crypto_pass", passData);
+                cmd.Parameters.AddWithValue("@crypto_salt", saltData);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        static public Tuple<byte[], byte[]> fetchUsersCrypto(string username)
+        {
+            DBConnection con = DBConnection.Instance();
+            string q = "Select * from users where username like @username;";
+
+            if (con.IsConnect())
+            {
+                MySqlCommand cmd = new MySqlCommand(q, con.Connection);
+                cmd.CommandText = q;
+                cmd.Parameters.AddWithValue("@username", username);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+                Tuple<byte[], byte[]> t = null;
+                while (reader.Read())
+                {
+                    t = new Tuple<byte[], byte[]>(Encoding.ASCII.GetBytes(reader["crypto_pass"].ToString()),
+                        Encoding.ASCII.GetBytes(reader["crypto_salt"].ToString()));
+                }
+
+                con.Close();
+
+                return t;
             }
 
             throw new Exception("DATABASE PROBLEMS");

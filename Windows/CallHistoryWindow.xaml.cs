@@ -31,6 +31,7 @@ namespace VOiP_Communicator
         void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             this.Owner.IsEnabled = true;
+            this.Owner.Activate();
         }
 
         private void ListView_CallHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -53,6 +54,7 @@ namespace VOiP_Communicator
         private void Button_Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            this.Owner.Activate();
             this.Owner.IsEnabled = true;
         }
 
@@ -67,8 +69,7 @@ namespace VOiP_Communicator
             {
                 this.Close();
                 this.Owner.IsEnabled = true;
-                var userRepo = new UserRepo();
-                WindowMain.Manager.Call(userRepo.getColumnByIds(entry.User_ID, "ip_address"), entry.User_ID);
+                WindowMain.Manager.Call(UserRepo.getColumnByIds(entry.User_ID, "ip_address"), entry.User_ID);
                 ((WindowMain)this.Owner).ButtonSet(false, true, true);
             }
         }

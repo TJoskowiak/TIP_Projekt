@@ -28,7 +28,6 @@ namespace VOiP_Communicator.Classes
                 cmd.Parameters.AddWithValue("@user_id", userId.ToString());
 
                 MySqlDataReader reader = cmd.ExecuteReader();
-                var userRepo = new UserRepo();
                 while (reader.Read())
                 {
                     callEntries.Add(new CallEntry
@@ -42,7 +41,7 @@ namespace VOiP_Communicator.Classes
 
                 con.Close();
                 foreach (var entry in callEntries) {
-                    entry.Username = userRepo.getColumnByIds(entry.User_ID, "username");
+                    entry.Username = UserRepo.getColumnByIds(entry.User_ID, "username");
                     entry.TypeToStatus();
                }
 

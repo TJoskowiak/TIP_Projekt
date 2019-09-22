@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS users(
     profile_picture BLOB NULL,
     last_login_date DATETIME NOT NULL,
     created_date DATETIME NOT NULL,
+    crypto_pass varbinary(128) default null,
+    crypto_salt varbinary(128) default null,
     PRIMARY KEY (user_id)
 ) ENGINE=INNODB;
 

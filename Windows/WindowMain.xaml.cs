@@ -88,7 +88,7 @@ namespace VOiP_Communicator
                 }
                 else
                 {
-                    imageProfile.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "/Img/user.png"));
+                    imageProfile.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"../../Img/user.png"));
                 }
                 if (selectedItem != null)
                 {
@@ -117,8 +117,8 @@ namespace VOiP_Communicator
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            UserRepo userRepo = UserRepo.Instance();
-            userRepo.setUserOffline(Globals.currentUserLogin);
+            UserRepo.setUserOffline(Globals.currentUserLogin);
+            System.Windows.Application.Current.Shutdown();
         }
 
         private void loadAllContacts()
