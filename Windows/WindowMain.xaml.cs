@@ -283,5 +283,19 @@ namespace VOiP_Communicator
             chw.Owner = this;
             chw.Show();
         }
+
+        private void Button_Mute_Click(object sender, RoutedEventArgs e)
+        {
+            CallManager.IsMuted = !CallManager.IsMuted;
+            if (CallManager.IsMuted)
+            {
+                Button_Mute.Content = "Unmute";
+            }
+            else
+            {
+                Button_Mute.Content = "Mute";
+
+            }
+        }
     }
 }

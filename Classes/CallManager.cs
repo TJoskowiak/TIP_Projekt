@@ -39,6 +39,7 @@ namespace VOiP_Communicator.Classes
 
     public class CallManager
     {
+        static public bool IsMuted = false;
         private CaptureBufferDescription captureBufferDescription;
         private AutoResetEvent autoResetEvent;
         private Notify notify;
@@ -314,20 +315,21 @@ namespace VOiP_Communicator.Classes
                 bStop = false;
                 while (!bStop)
                 {
-                    autoResetEvent.WaitOne();
-                    memStream.Seek(0, SeekOrigin.Begin);
-                    captureBuffer.Read(offset, memStream, halfBuffer, LockFlag.None);
-                    readFirstBufferPart = !readFirstBufferPart;
-                    offset = readFirstBufferPart ? 0 : halfBuffer;
+                    if (!IsMuted)
+                    {
+                        autoResetEvent.WaitOne();
+                        memStream.Seek(0, SeekOrigin.Begin);
+                        captureBuffer.Read(offset, memStream, halfBuffer, LockFlag.None);
+                        readFirstBufferPart = !readFirstBufferPart;
+                        offset = readFirstBufferPart ? 0 : halfBuffer;
 
-                    //Encode and encrypt data.
+                        //Encode and encrypt data.
+                        byte[] dataEncoded = ALawEncoder.ALawEncode(memStream.GetBuffer());
 
-                    byte[] dataEncoded = ALawEncoder.ALawEncode(memStream.GetBuffer());
+                        byte[] dataToWrite = AES_Crypto.Encrypt(dataEncoded, CallCurrentPass, CallCurrentSalt);
 
-                    byte[] dataToWrite = AES_Crypto.Encrypt(dataEncoded, CallCurrentPass, CallCurrentSalt);
-
-                    udpClient.Send(dataToWrite, dataToWrite.Length, otherPartyIP.Address.ToString(), 1550);
-                   
+                        udpClient.Send(dataToWrite, dataToWrite.Length, otherPartyIP.Address.ToString(), 1550);
+                    }
                 }
             }
             catch (Exception e)

@@ -10,7 +10,7 @@
     <Grid>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="324" Margin="10,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="390"/>
         <Button x:Name="Button_Connect" Content="Connect" HorizontalAlignment="Left" Height="31" Margin="34,273,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="0.286,-0.602" Click="Button_Connect_Click"/>
-        <Button x:Name="Button_Mute" Content="Mute" HorizontalAlignment="Left" Height="31" Margin="161,273,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="0.29,1.649"/>
+        <Button x:Name="Button_Mute" Content="Mute" HorizontalAlignment="Left" Height="31" Margin="161,273,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="0.29,1.649" Click="Button_Mute_Click"/>
         <Button x:Name="Button_End" Content="End" HorizontalAlignment="Left" Height="31" Margin="287,273,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="0.509,1.474" Click="Button_End_Click"/>
         <Label x:Name="Label_USername" Content="Name:" HorizontalAlignment="Left" Height="31" Margin="198,20,0,0" VerticalAlignment="Top" Width="100" FontSize="16"/>
         <Button x:Name="Button_FindPerson" Content="Find..." HorizontalAlignment="Left" Height="30" Margin="281,339,0,0" VerticalAlignment="Top" Width="119" Click="Button_FindPerson_Click"/>
