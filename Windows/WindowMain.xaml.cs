@@ -67,6 +67,8 @@ namespace VOiP_Communicator
         {
             refreshListBox();
             favourite.Content = "Mark as favourite";
+            TextName.Text = "";
+            imageProfile.Source = new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + @"../../Img/user.png"));
         }
 
         private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
@@ -226,9 +228,15 @@ namespace VOiP_Communicator
         private void Button_Connect_Click(object sender, RoutedEventArgs e)
         {
             string text = (string)listBox.SelectedItem;
-            string ContactIP = getContactByUsername(text).Ip;
-            int ContactID = getContactByUsername(text).SubjectId;
-            Console.WriteLine(ContactIP);
+            Contact UserToCall = getContactByUsername(text);
+            if (UserToCall.Status == 0)
+            {
+                MessageBox.Show("User currently offline");
+                return;
+            }
+            string ContactIP = UserToCall.Ip;
+            int ContactID = UserToCall.SubjectId;
+            //Console.WriteLine(ContactIP);
             Manager.Call(ContactIP, ContactID);
             ButtonSet(false, true, true);
         }

@@ -42,7 +42,7 @@ namespace VOiP_Communicator
         private void WindowCallHistory_Loaded(object sender, RoutedEventArgs e)
         {
             var resultsList = CallRepo.GetCallEntries(Globals.currentUserId);
-            Console.WriteLine(resultsList.Count);
+            //Console.WriteLine(resultsList.Count);
             foreach (var result in resultsList)
             {
                 ListView_CallHistory.Items.Add(result);
@@ -67,10 +67,17 @@ namespace VOiP_Communicator
             }
             else
             {
-                this.Close();
-                this.Owner.IsEnabled = true;
-                WindowMain.Manager.Call(UserRepo.getColumnByIds(entry.User_ID, "ip_address"), entry.User_ID);
-                ((WindowMain)this.Owner).ButtonSet(false, true, true);
+                if(UserRepo.getColumnByIds(entry.User_ID, "status") == 1.ToString())
+                {
+                    this.Close();
+                    this.Owner.IsEnabled = true;
+                    WindowMain.Manager.Call(UserRepo.getColumnByIds(entry.User_ID, "ip_address"), entry.User_ID);
+                    ((WindowMain)this.Owner).ButtonSet(false, true, true);
+                }
+                else
+                {
+                    MessageBox.Show("User is offline");
+                }       
             }
         }
     }

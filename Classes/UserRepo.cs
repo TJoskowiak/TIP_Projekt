@@ -160,7 +160,7 @@ namespace VOiP_Communicator.Classes
         static public void setUserOffline(string username)
         {
             DBConnection con = DBConnection.Instance();
-            string q = "UPDATE users set status = status & ~1 where username like @username";
+            string q = "UPDATE users set status = status & ~1, ip_address = ''  where username like @username";
 
             if (con.IsConnect())
             {
@@ -205,12 +205,27 @@ namespace VOiP_Communicator.Classes
 
             if (con.IsConnect())
             {
-                MySqlCommand cmd = con.Connection.CreateCommand();
-                cmd.CommandText = q;
-                cmd.Parameters.AddWithValue("@userId", Globals.currentUserId);
-                cmd.Parameters.AddWithValue("@imageData", imageData);
-                cmd.ExecuteNonQuery();
-                con.Close();
+                try
+                {
+                    MySqlCommand cmd = con.Connection.CreateCommand();
+                    cmd.CommandText = q;
+                    cmd.Parameters.AddWithValue("@userId", Globals.currentUserId);
+                    cmd.Parameters.AddWithValue("@imageData", imageData);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Your image has been saved");
+                }
+                catch(MySqlException)
+                {
+                    MessageBox.Show("Image to big, try smaller");
+                }
+                catch(Exception)
+                {
+                    MessageBox.Show("No data loaded");
+                }
+                finally
+                {
+                    con.Close();
+                }
             }
         }
 

@@ -61,14 +61,16 @@ namespace VOiP_Communicator.Windows
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            try { 
-            byte[] ImageData = getJPGFromImageControl(ProfileImage.Source as BitmapImage);
-            UserRepo.savePhotoForUser(ImageData);
-            }
-            catch (Exception)
+            if(ProfileImage != null)
             {
-                MessageBox.Show("No data loaded");
+                var JPG = getJPGFromImageControl(ProfileImage.Source as BitmapImage);
+                if (JPG[0] != 0x20)
+                {
+                    byte[] ImageData = (byte[])JPG;
+                    UserRepo.savePhotoForUser(ImageData);
+                }
             }
+           
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -81,9 +83,18 @@ namespace VOiP_Communicator.Windows
         private byte[] getJPGFromImageControl(BitmapImage imageC)
         {
             MemoryStream memStream = new MemoryStream();
-            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(imageC));
-            encoder.Save(memStream);
+            try
+            {
+                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(imageC));
+                encoder.Save(memStream);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("File not found");
+                return new byte[] {0x20};
+            }
+
             return memStream.ToArray();
         }
     }
