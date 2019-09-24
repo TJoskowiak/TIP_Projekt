@@ -245,6 +245,11 @@ namespace VOiP_Communicator
         private void Button_End_Click(object sender, RoutedEventArgs e)
         {
             Manager.DropCall();
+            Thread.Sleep(200);
+            if (TextName.Text != "")
+            {
+                ButtonSet(true, false, false);
+            }
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
