@@ -10,6 +10,10 @@ namespace VOiP_Communicator.Classes
     class CallEntry
     { 
     
+        public int Caller_ID { get; set; }
+
+        public int Receiver_ID { get; set; }
+
         public int User_ID { get; set; }
 
         public string Username { get; set; }

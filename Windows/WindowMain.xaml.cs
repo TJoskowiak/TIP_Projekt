@@ -120,6 +120,7 @@ namespace VOiP_Communicator
         private void Window_Closed(object sender, EventArgs e)
         {
             UserRepo.setUserOffline(Globals.currentUserLogin);
+            Manager.DropCall();
             System.Windows.Application.Current.Shutdown();
         }
 

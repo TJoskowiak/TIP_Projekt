@@ -14,12 +14,7 @@ namespace VOiP_Communicator.Classes
         {
             DBConnection con = DBConnection.Instance();
             string q =
-                "(SELECT caller_id as user_id, status, call_date, end_date FROM calls WHERE receiver_id = @user_id " +
-                "ORDER BY call_date) " +
-                "UNION ALL " +
-                "(SELECT receiver_id as user_id, status, call_date, end_date FROM calls WHERE caller_id = @user_id " +
-                "ORDER BY call_date) ";
-
+                "(SELECT caller_id, receiver_id, status, call_date, end_date FROM calls WHERE receiver_id = @user_id OR caller_id = @user_id ORDER BY call_date) ";
             var callEntries = new List<CallEntry>();
             if (con.IsConnect())
             {
@@ -30,18 +25,31 @@ namespace VOiP_Communicator.Classes
                 MySqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                  
                     callEntries.Add(new CallEntry
                     {
-                        User_ID = (int)reader["user_id"],
+                        Caller_ID = (int)reader["caller_id"],
+                        Receiver_ID = (int)reader["receiver_id"],
                         Type = (int)reader["status"],
                         Start_Date = reader["call_date"].ToString(),
                         End_Date = reader["end_date"].ToString()
                     });
+                    
                 }
 
                 con.Close();
                 foreach (var entry in callEntries) {
-                    entry.Username = UserRepo.getColumnByIds(entry.User_ID, "username");
+                    if (Globals.currentUserId == entry.Caller_ID)
+                    {
+                        entry.Username = UserRepo.getColumnByIds(entry.Receiver_ID, "username");
+                        entry.User_ID = entry.Receiver_ID;
+                    }       
+                    else if (Globals.currentUserId == entry.Receiver_ID)
+                    {
+                        entry.Username = UserRepo.getColumnByIds(entry.Caller_ID, "username");
+                        entry.Type += 1;
+                        entry.User_ID = entry.Caller_ID;
+                    }
                     entry.TypeToStatus();
                }
 

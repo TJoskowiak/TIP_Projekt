@@ -54,7 +54,7 @@ namespace VOiP_Communicator.Classes
         private bool bStop;                         //Flag to end the Start and Receive threads.
         private IPEndPoint otherPartyIP;            //IP of party we want to make a call.
         private EndPoint otherPartyEP;
-        private volatile bool bIsCallActive;                 //Tells whether we have an active call.
+        private volatile bool IsCallActive;                 //Tells whether we have an active call.
         private byte[] byteData = new byte[1024];   //Buffer to store the data received.
         private volatile int nUdpClientFlag;                 //Flag used to close the udpClient socket.
         private bool IsCaller = false;
@@ -111,7 +111,7 @@ namespace VOiP_Communicator.Classes
 
                 bufferSize = captureBufferDescription.BufferBytes;
 
-                bIsCallActive = false;
+                IsCallActive = false;
                 nUdpClientFlag = 0;
 
                 //Using UDP sockets
@@ -205,7 +205,7 @@ namespace VOiP_Communicator.Classes
                     //We have an incoming call.
                     case Command.Invite:
                         {
-                            if (bIsCallActive == false)
+                            if (IsCallActive == false)
                             {
                                 //We have no active call.
 
@@ -419,7 +419,7 @@ namespace VOiP_Communicator.Classes
         {
             //Set the flag to end the Send and Receive threads.
             bStop = true;
-            bIsCallActive = false;
+            IsCallActive = false;
 
             window.ButtonSetAsync(true, false, false);
             if (IsCaller)
@@ -440,15 +440,18 @@ namespace VOiP_Communicator.Classes
 
         public void DropCall()
         {
-            try
+            if (IsCallActive)
             {
-                //Send a Bye message to the user to end the call.
-                SendMessage(Command.Bye, otherPartyEP);
-                UninitializeCall();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "VoiceChat-DropCall ()", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                try
+                {
+                    //Send a Bye message to the user to end the call.
+                    SendMessage(Command.Bye, otherPartyEP);
+                    UninitializeCall();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString(), "VoiceChat-DropCall ()", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                }
             }
         }
 
@@ -461,7 +464,7 @@ namespace VOiP_Communicator.Classes
 
                 Thread senderThread = new Thread(new ThreadStart(Send));
                 Thread receiverThread = new Thread(new ThreadStart(Receive));
-                bIsCallActive = true;
+                IsCallActive = true;
 
                 //Start the receiver and sender thread.
                 receiverThread.Start();
