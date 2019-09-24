@@ -230,7 +230,7 @@ namespace VOiP_Communicator
         {
             string text = (string)listBox.SelectedItem;
             Contact UserToCall = getContactByUsername(text);
-            if (UserToCall.Status == 0)
+            if (UserRepo.getColumnByIds(UserToCall.SubjectId, "status") == 0.ToString())
             {
                 MessageBox.Show("User currently offline");
                 return;

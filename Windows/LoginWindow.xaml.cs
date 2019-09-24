@@ -39,11 +39,18 @@ namespace VOiP_Communicator
         {
             if(validate(Login.Text, Password.Password))
             {
-              
-                UserRepo.updateLogin(Login.Text, GetLocalIPAddress());
-                WindowMain wm = new WindowMain();
-                wm.Show();
-                this.Close();
+
+                if (UserRepo.GetColumnValueByUsername(Login.Text, "status") == 0.ToString())
+                {
+                    UserRepo.updateLogin(Login.Text, GetLocalIPAddress());
+                    WindowMain wm = new WindowMain();
+                    wm.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("User already logged into the app");
+                }
 
             }
         }
