@@ -235,7 +235,7 @@ namespace VOiP_Communicator
                 MessageBox.Show("User currently offline");
                 return;
             }
-            string ContactIP = UserToCall.Ip;
+            string ContactIP = UserRepo.getColumnByIds(UserToCall.SubjectId, "ip_address");
             int ContactID = UserToCall.SubjectId;
             //Console.WriteLine(ContactIP);
             Manager.Call(ContactIP, ContactID);
